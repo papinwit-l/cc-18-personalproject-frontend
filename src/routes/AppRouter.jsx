@@ -33,7 +33,7 @@ const userRouter = createBrowserRouter([
 ]);
 
 function AppRouter() {
-  const user = 1;
+  const user = 0;
   const finalRouter = user ? userRouter : guestRouter;
   return <RouterProvider router={finalRouter} />;
 }

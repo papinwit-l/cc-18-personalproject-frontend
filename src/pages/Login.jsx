@@ -1,14 +1,20 @@
 import React, { useState } from "react";
 import Register from "./Register";
 
+import useUserStore from "../stores/userStore";
+
 function Login() {
   const [form, setForm] = useState({
     identity: "",
     password: "",
   });
 
-  const hdlSubmit = (e) => {
+  const login = useUserStore((state) => state.login);
+
+  const hdlSubmit = async (e) => {
     e.preventDefault();
+    const res = await login(form);
+    console.log(res);
   };
 
   const hdlOnchange = (e) => {

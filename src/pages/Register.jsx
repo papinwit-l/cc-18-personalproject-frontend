@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
+
+import useUserStore from "../stores/userStore";
 
 function Register() {
   const [form, setForm] = useState({
@@ -7,9 +9,12 @@ function Register() {
     password: "",
     confirmPassword: "",
   });
+  const register = useUserStore((state) => state.register);
 
   const hdlSubmit = (e) => {
     e.preventDefault();
+    const res = register(form);
+    console.log(res);
   };
 
   const hdlOnchange = (e) => {
