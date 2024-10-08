@@ -1,9 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import Register from "./Register";
 
 function Login() {
+  const [form, setForm] = useState({
+    identity: "",
+    password: "",
+  });
+
   const hdlSubmit = (e) => {
     e.preventDefault();
+  };
+
+  const hdlOnchange = (e) => {
+    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
   const showRegisterModal = (e) => {
@@ -28,6 +37,9 @@ function Login() {
                 type="text"
                 className="grow"
                 placeholder="Username or Email"
+                name="identity"
+                value={form.identity}
+                onChange={hdlOnchange}
               />
             </label>
             <label className="input input-bordered flex items-center gap-2">
@@ -43,7 +55,14 @@ function Login() {
                   clipRule="evenodd"
                 />
               </svg>
-              <input type="password" className="grow" placeholder="Password" />
+              <input
+                type="password"
+                className="grow"
+                placeholder="Password"
+                name="password"
+                value={form.password}
+                onChange={hdlOnchange}
+              />
             </label>
             <button className="btn btn-primary text-white">Login</button>
             <a href="#" className="text-center text-[#0000EE] hover:underline">
