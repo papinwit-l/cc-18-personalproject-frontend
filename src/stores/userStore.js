@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 import axios from "axios";
+import socketIO from "socket.io-client";
 
 const userStore = (set, get) => ({
   user: null,

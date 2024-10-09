@@ -1,23 +1,24 @@
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
+import useUserStore from "../stores/userStore";
+import Avatar from "./Avatar";
+import { IconDownArrow } from "../icons";
 
 function Header() {
   const location = useLocation();
   const [activePage, setActivePage] = useState(
-    location.pathname.slice(1, location.pathname.length)
+    location.pathname == "/" ? "chat" : location.pathname
   );
+  const logout = useUserStore((state) => state.logout);
 
-  // useEffect(() => {
-  //   console.log(activePage);
-  //   console.log(location.pathname.slice(1, location.pathname.length));
-  // }, []);
+  const user = useUserStore((state) => state.user);
 
   return (
     <div className="flex justify-between items-center bg-base-300 h-full">
       <nav>
         <ul className="flex gap-2 items-center">
           <li>
-            {activePage == "profile" ? (
+            {activePage.includes("profile") ? (
               <a href="profile" className="font-bold">
                 Profile
               </a>
@@ -26,16 +27,16 @@ function Header() {
             )}
           </li>
           <li>
-            {activePage == "" ? (
-              <a href="/" className="font-bold">
+            {activePage.includes("chat") ? (
+              <a href="/chat" className="font-bold">
                 Chat
               </a>
             ) : (
-              <a href="/">Chat</a>
+              <a href="/chat">Chat</a>
             )}
           </li>
           <li>
-            {activePage == "friends" ? (
+            {activePage.includes("friends") ? (
               <a href="friends" className="font-bold">
                 Friends
               </a>
@@ -44,7 +45,7 @@ function Header() {
             )}
           </li>
           <li>
-            {activePage == "groups" ? (
+            {activePage.includes("groups") ? (
               <a href="groups" className="font-bold">
                 Groups
               </a>
@@ -56,7 +57,34 @@ function Header() {
       </nav>
       <nav>
         <ul>
-          <li>Logout</li>
+          <li>
+            <div className="dropdown dropdown-end">
+              <div
+                tabIndex={0}
+                role="button"
+                className="p-1 flex gap-2 items-center btn"
+              >
+                <div className="bg-white rounded-full p-1 w-9">
+                  <Avatar
+                    imgSrc={user.profile.profileImage}
+                    className="w-full"
+                  />
+                </div>
+                {user.profile.name}
+              </div>
+              <ul
+                tabIndex={0}
+                className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow"
+              >
+                <li>
+                  <a>My Profile</a>
+                </li>
+                <li onClick={logout}>
+                  <a>Logout</a>
+                </li>
+              </ul>
+            </div>
+          </li>
         </ul>
       </nav>
     </div>

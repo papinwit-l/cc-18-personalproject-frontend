@@ -14,7 +14,7 @@ function Login() {
   const hdlSubmit = async (e) => {
     e.preventDefault();
     const res = await login(form);
-    console.log(res);
+    // console.log(res);
   };
 
   const hdlOnchange = (e) => {

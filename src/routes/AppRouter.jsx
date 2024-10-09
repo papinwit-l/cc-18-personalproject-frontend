@@ -2,6 +2,7 @@ import {
   createBrowserRouter,
   Navigate,
   RouterProvider,
+  useNavigate,
 } from "react-router-dom";
 import App from "../App";
 import Login from "../pages/Login";
@@ -12,6 +13,10 @@ import Friends from "../pages/Friends";
 import Group from "../pages/Group";
 import PageNotFound from "../pages/PageNotFound";
 import Home from "../pages/Home";
+import useUserStore from "../stores/userStore";
+import socketIO from "socket.io-client";
+
+const socket = socketIO("http://localhost:8000");
 
 const guestRouter = createBrowserRouter([
   { path: "/", element: <Login /> },
@@ -23,7 +28,8 @@ const userRouter = createBrowserRouter([
     path: "/",
     element: <Layout />,
     children: [
-      { index: true, element: <Chat /> },
+      { index: true, element: <Navigate to={"chat"} /> },
+      { path: "chat", element: <Chat socket={socket} /> },
       { path: "profile", element: <Profile /> },
       { path: "friends", element: <Friends /> },
       { path: "groups", element: <Group /> },
@@ -33,7 +39,7 @@ const userRouter = createBrowserRouter([
 ]);
 
 function AppRouter() {
-  const user = 0;
+  const user = useUserStore((state) => state.user);
   const finalRouter = user ? userRouter : guestRouter;
   return <RouterProvider router={finalRouter} />;
 }

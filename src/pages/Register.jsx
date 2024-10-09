@@ -11,9 +11,9 @@ function Register() {
   });
   const register = useUserStore((state) => state.register);
 
-  const hdlSubmit = (e) => {
+  const hdlSubmit = async (e) => {
     e.preventDefault();
-    const res = register(form);
+    const res = await register(form);
     console.log(res);
   };
 
