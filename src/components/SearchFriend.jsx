@@ -1,9 +1,12 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import useUserStore from "../stores/userStore";
+import SearchFriendItem from "./SearchFriendItem";
+import { SocketContext } from "../contexts/SocketContext";
 
 function SearchFriend(props) {
   const { setAddFriend } = props;
+  const socket = useContext(SocketContext);
   const token = useUserStore((state) => state.token);
   const [searchText, setSearchText] = useState("");
   const [userList, setUserList] = useState([]);
@@ -18,6 +21,7 @@ function SearchFriend(props) {
 
   const findUser = async () => {
     try {
+      setUserList([]);
       const res = await axios.get(
         `http://localhost:8000/user/finduser/${searchText}`,
         {
@@ -35,8 +39,8 @@ function SearchFriend(props) {
 
   const hdlFindUser = (e) => {
     e.preventDefault();
-    console.log(searchText);
-    findUser(searchText);
+    // console.log(searchText);
+    findUser();
   };
 
   return (
@@ -51,10 +55,10 @@ function SearchFriend(props) {
           onChange={hdlChange}
         />
       </form>
-      <div>Friend List</div>
-      {userList.map((el) => {
-        return <div key={el.id}>{el.username}</div>;
-      })}
+      <div>Find other people</div>
+      {userList.map((el) => (
+        <SearchFriendItem key={el.id} user={el} findUser={findUser} />
+      ))}
     </div>
   );
 }

@@ -17,7 +17,7 @@ function Header() {
     <div className="flex justify-between items-center bg-base-300 h-full">
       <nav>
         <ul className="flex gap-2 items-center">
-          <li>
+          {/* <li>
             {activePage.includes("profile") ? (
               <a href="profile" className="font-bold">
                 Profile
@@ -25,7 +25,7 @@ function Header() {
             ) : (
               <a href="profile">Profile</a>
             )}
-          </li>
+          </li> */}
           <li>
             {activePage.includes("chat") ? (
               <a href="/chat" className="font-bold">
@@ -37,20 +37,20 @@ function Header() {
           </li>
           <li>
             {activePage.includes("friends") ? (
-              <a href="friends" className="font-bold">
+              <a href="/friends" className="font-bold">
                 Friends
               </a>
             ) : (
-              <a href="friends">Friends</a>
+              <a href="/friends">Friends</a>
             )}
           </li>
           <li>
             {activePage.includes("groups") ? (
-              <a href="groups" className="font-bold">
+              <a href="/groups" className="font-bold">
                 Groups
               </a>
             ) : (
-              <a href="groups">Groups</a>
+              <a href="/groups">Groups</a>
             )}
           </li>
         </ul>
@@ -77,7 +77,7 @@ function Header() {
                 className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow"
               >
                 <li>
-                  <a>My Profile</a>
+                  <a href="/profile">My Profile</a>
                 </li>
                 <li onClick={logout}>
                   <a>Logout</a>

@@ -1,5 +1,10 @@
 import AppRouter from "./routes/AppRouter";
+import { SocketProvider } from "./contexts/SocketContext";
 
 export default function App() {
-  return <AppRouter />;
+  return (
+    <SocketProvider>
+      <AppRouter />
+    </SocketProvider>
+  );
 }

@@ -14,9 +14,9 @@ import Group from "../pages/Group";
 import PageNotFound from "../pages/PageNotFound";
 import Home from "../pages/Home";
 import useUserStore from "../stores/userStore";
-import socketIO from "socket.io-client";
+// import socketIO from "socket.io-client";
 
-const socket = socketIO("http://localhost:8000");
+// const socket = socketIO("http://localhost:8000");
 
 const guestRouter = createBrowserRouter([
   { path: "/", element: <Login /> },
@@ -29,7 +29,7 @@ const userRouter = createBrowserRouter([
     element: <Layout />,
     children: [
       { index: true, element: <Navigate to={"chat"} /> },
-      { path: "chat", element: <Chat socket={socket} /> },
+      { path: "chat", element: <Chat /> },
       { path: "profile", element: <Profile /> },
       { path: "friends", element: <Friends /> },
       { path: "groups", element: <Group /> },
