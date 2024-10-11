@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 import useUserStore from "../stores/userStore";
 import Avatar from "./Avatar";
 import { IconDownArrow } from "../icons";
+import useUtilStore from "../stores/utilStore";
 
 function Header() {
   const location = useLocation();
@@ -12,6 +13,11 @@ function Header() {
   const logout = useUserStore((state) => state.logout);
 
   const user = useUserStore((state) => state.user);
+
+  useEffect(() => {
+    console.log(activePage);
+    setActivePage(location.pathname);
+  }, [location.pathname]);
 
   return (
     <div className="flex justify-between items-center bg-base-300 h-full">

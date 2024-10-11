@@ -1,7 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
 import FriendBar from "../components/FriendBar";
+import useFriendStore from "../stores/friendStore";
+import FriendSelect from "../components/FriendSelect";
 
 function Friends() {
+  const friend = useFriendStore((state) => state.friend);
+
+  useEffect(() => {
+    console.log(friend);
+  }, [friend]);
+
   return (
     <div className="bg-slate-100 h-full flex">
       {/* Chat List */}
@@ -10,7 +18,7 @@ function Friends() {
       </div>
 
       {/* Chat Content */}
-      <div>Friends</div>
+      {friend ? <FriendSelect /> : <div>Friends</div>}
     </div>
   );
 }
