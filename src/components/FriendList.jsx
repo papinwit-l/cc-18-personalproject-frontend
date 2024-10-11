@@ -4,12 +4,12 @@ import useUserStore from "../stores/userStore";
 import FriendListItem from "./FriendListItem";
 
 function FriendList(props) {
-  const { setAddFriend } = props;
+  const { setMenuState } = props;
   const token = useUserStore((state) => state.token);
 
   const [friendList, setFriendList] = useState([]);
   const hdlAddFriend = (e) => {
-    setAddFriend(true);
+    setMenuState("addFriend");
   };
   const fetchFriend = async () => {
     try {
@@ -31,7 +31,10 @@ function FriendList(props) {
 
   return (
     <div>
-      <button onClick={hdlAddFriend}>Add Friend</button>
+      <div className="flex justify-between">
+        <button onClick={hdlAddFriend}>Add Friend</button>
+        <button onClick={() => setMenuState("friendPending")}>Pending</button>
+      </div>
       <div>FriendList</div>
       {friendList.map((el) => (
         <FriendListItem key={el.id} friend={el} />

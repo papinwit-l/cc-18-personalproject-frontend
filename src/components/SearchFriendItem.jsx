@@ -25,7 +25,7 @@ function SearchFriendItem(props) {
           },
         }
       );
-      //   console.log(res.data);
+      console.log(res.data);
     } catch (error) {
       console.log(error);
     }
@@ -83,6 +83,9 @@ function SearchFriendItem(props) {
         setStatus(data.result2.status);
       }
     });
+    return () => {
+      socket.off("friendUpdate");
+    };
   }, [socket]);
 
   return (

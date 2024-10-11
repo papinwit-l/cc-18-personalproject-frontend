@@ -5,14 +5,14 @@ import SearchFriendItem from "./SearchFriendItem";
 import { SocketContext } from "../contexts/SocketContext";
 
 function SearchFriend(props) {
-  const { setAddFriend } = props;
+  const { setAddFriend, setMenuState } = props;
   const socket = useContext(SocketContext);
   const token = useUserStore((state) => state.token);
   const [searchText, setSearchText] = useState("");
   const [userList, setUserList] = useState([]);
 
   const hdlBackBtn = (e) => {
-    setAddFriend(false);
+    setMenuState("friendList");
   };
 
   const hdlChange = (e) => {
