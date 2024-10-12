@@ -1,8 +1,12 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import useUserStore from "../stores/userStore";
+import { SocketContext } from "../contexts/SocketContext";
+import useFriendStore from "../stores/friendStore";
 
-function ChatFooter(props) {
-  const { socket } = props;
+function ChatFooter() {
+  const socket = useContext(SocketContext);
+  const activeChat = useFriendStore((state) => state.activeChat);
+  const chatId = activeChat.id;
   const user = useUserStore((state) => state.user);
   const user_name = user.profile.name;
   //   console.log(user_name);
@@ -15,12 +19,12 @@ function ChatFooter(props) {
   const hdlSubmit = (e) => {
     e.preventDefault();
     console.log(message);
-    if (message.trim().length === 0) return;
-    if (message.trim() && user_name) {
+    if (message && user_name) {
       socket.emit("message", {
-        text: message,
+        message: message,
         name: user_name,
-        id: user.id,
+        serderId: user.id,
+        chatId: chatId,
         socketID: socket.id,
       });
     }

@@ -8,8 +8,8 @@ function ChatListItem(props) {
 
   const activeChat = useFriendStore((state) => state.activeChat);
   const setActiveChat = useFriendStore((state) => state.setActiveChat);
-  console.log(activeChat.id == chat.id);
-  console.log(friend);
+  //   console.log(activeChat.id == chat.id);
+  //   console.log(friend);
 
   return (
     <div

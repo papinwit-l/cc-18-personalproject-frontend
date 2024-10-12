@@ -18,6 +18,13 @@ const usePersist = {
   storage: createJSONStorage(() => localStorage),
 };
 
-const useFriendStore = create(persist(friendStore, usePersist));
+const usePersistSession = {
+  name: "state",
+  storage: createJSONStorage(() => sessionStorage),
+};
+
+// const useFriendStore = create(persist(friendStore, usePersist));
+const useFriendStore = create(persist(friendStore, usePersistSession));
+// const useFriendStore = create(friendStore);
 
 export default useFriendStore;

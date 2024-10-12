@@ -11,6 +11,7 @@ function ChatList() {
   const user = useUserStore((state) => state.user);
   const [chatList, setChatList] = useState([]);
   const activeChat = useFriendStore((state) => state.activeChat);
+  // console.log(activeChat);
 
   const getAllChats = async () => {
     try {
@@ -45,7 +46,7 @@ function ChatList() {
       ChatList
       <div className="flex flex-col">
         {chatList.map((el) =>
-          activeChat.id == el.id ? (
+          activeChat && activeChat.id == el.id ? (
             <ChatListItem key={el.id} chat={el} className="bg-slate-500" />
           ) : (
             <ChatListItem key={el.id} chat={el} />
