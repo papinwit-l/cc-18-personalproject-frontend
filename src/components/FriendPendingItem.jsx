@@ -46,29 +46,29 @@ function FriendPendingItem(props) {
     }
   };
 
-  useEffect(() => {
-    socket.on("friendUpdate", (data) => {
-      // console.log("data");
-      if (
-        +data.result.userId == +currentUser.id &&
-        +data.result.friendId == +friend.friendId
-      ) {
-        // console.log(data.result.status);
-        getFriendPending();
-      }
-      if (
-        +data.result2.userId == +currentUser.id &&
-        +data.result2.friendId == +friend.friendId
-      ) {
-        // console.log(data.result2.status);
-        getFriendPending();
-      }
-    });
-    // Cleanup on component unmount
-    // return () => {
-    //   socket.off("friendUpdate");
-    // };
-  }, [socket]);
+  // useEffect(() => {
+  //   socket.on("friendUpdate-" + currentUser.id, (data) => {
+  //     console.log("data");
+  //     //   if (
+  //     //     +data.result.userId == +currentUser.id &&
+  //     //     +data.result.friendId == +friend.friendId
+  //     //   ) {
+  //     //     // console.log(data.result.status);
+  //     //     getFriendPending();
+  //     //   }
+  //     //   if (
+  //     //     +data.result2.userId == +currentUser.id &&
+  //     //     +data.result2.friendId == +friend.friendId
+  //     //   ) {
+  //     //     // console.log(data.result2.status);
+  //     //     getFriendPending();
+  //     //   }
+  //   });
+  //   // Cleanup on component unmount
+  //   // return () => {
+  //   //   socket.off("friendUpdate-" + currentUser.id);
+  //   // };
+  // }, [socket]);
 
   return (
     friend.status == "PENDING" && (

@@ -1,6 +1,10 @@
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 import axios from "axios";
+import useFriendStore from "./friendStore";
+
+const setFriend = useFriendStore.getState().setFriend;
+const setActiveChat = useFriendStore.getState().setActiveChat;
 
 const userStore = (set, get) => ({
   user: null,
@@ -13,6 +17,8 @@ const userStore = (set, get) => ({
   },
   logout: () => {
     set({ token: "", user: null });
+    setFriend(null);
+    setActiveChat(null);
   },
   register: async (input) => {
     const res = await axios.post("http://localhost:8000/auth/register", input);

@@ -47,7 +47,7 @@ function FriendSelect() {
           })
         );
       });
-      console.log(chat);
+      // console.log(chat);
       if (chat.length > 0) {
         setActiveChat(chat[0]);
         // setActivePage("/chat");
@@ -66,14 +66,19 @@ function FriendSelect() {
           },
         }
       );
-      console.log(res.data);
+      // console.log(res.data);
+      return res.data.chat;
     } catch (error) {
       console.log(error);
     }
   };
 
-  const hdlStartChat = () => {
-    createChat();
+  const hdlStartChat = async () => {
+    const res = await createChat();
+    const chat = [res];
+    // console.log(chat);
+    setActiveChat(chat[0]);
+    navigate("/chat");
   };
   return (
     <div className="flex flex-col w-full">

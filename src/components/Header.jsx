@@ -1,16 +1,22 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import useUserStore from "../stores/userStore";
 import Avatar from "./Avatar";
 import { IconDownArrow } from "../icons";
 import useUtilStore from "../stores/utilStore";
+import { SocketContext } from "../contexts/SocketContext";
 
 function Header() {
+  const socket = useContext(SocketContext);
   const location = useLocation();
   const [activePage, setActivePage] = useState(
     location.pathname == "/" ? "chat" : location.pathname
   );
   const logout = useUserStore((state) => state.logout);
+  const hdlLogout = () => {
+    logout();
+    socket.on("disconnect");
+  };
 
   const user = useUserStore((state) => state.user);
 
@@ -85,7 +91,7 @@ function Header() {
                 <li>
                   <a href="/profile">My Profile</a>
                 </li>
-                <li onClick={logout}>
+                <li onClick={hdlLogout}>
                   <a>Logout</a>
                 </li>
               </ul>

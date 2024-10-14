@@ -1,9 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import useUserStore from "../stores/userStore";
 import axios from "axios";
 import FriendPendingItem from "./FriendPendingItem";
+import { SocketContext } from "../contexts/SocketContext";
 
 function FriendPending(props) {
+  const socket = useContext(SocketContext);
+  const currentUser = useUserStore((state) => state.user);
   const { setMenuState } = props;
   const token = useUserStore((state) => state.token);
   const [friendPending, setFriendPending] = useState([]);
@@ -28,6 +31,23 @@ function FriendPending(props) {
   useEffect(() => {
     getFriendPending();
   }, []);
+
+  useEffect(() => {
+    console.log("aaaaa");
+    socket.on("friendUpdate-" + currentUser.id, (data) => {
+      console.log("friendUpdate", data);
+      if (
+        +data.result.userId == +currentUser.id ||
+        +data.result.friendId == +currentUser.id
+      ) {
+        // console.log(data.result.status);
+        getFriendPending();
+      }
+    });
+    return () => {
+      socket.off("friendUpdate-" + currentUser.id);
+    };
+  }, [socket]);
 
   return (
     <div className="flex flex-col items-start">

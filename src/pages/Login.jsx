@@ -13,8 +13,12 @@ function Login() {
 
   const hdlSubmit = async (e) => {
     e.preventDefault();
-    const res = await login(form);
-    // console.log(res);
+    try {
+      const res = await login(form);
+      // console.log(res);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const hdlOnchange = (e) => {

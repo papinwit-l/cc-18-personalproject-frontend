@@ -48,14 +48,22 @@ function AppRouter() {
   // console.log(user);
 
   useEffect(() => {
+    if (!user) return;
     socket.on("connect", () => {
       console.log("socket connected", socket.id);
-      socket.emit("identify", { userId: user.id });
+    });
+    socket.emit("identify", { userId: user.id });
+    socket.on("joined_room", ({ room }) => {
+      console.log(`Joined room: ${room}`);
+    });
+    socket.on("test", (data) => {
+      console.log(data);
     });
     return () => {
       socket.off("connect");
+      socket.off("joined_room");
     };
-  }, []);
+  }, [user]);
 
   return <RouterProvider router={finalRouter} />;
 }

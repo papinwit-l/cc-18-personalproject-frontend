@@ -66,7 +66,7 @@ function SearchFriendItem(props) {
   };
 
   useEffect(() => {
-    socket.on("friendUpdate", (data) => {
+    socket.on("friendUpdate-" + currentUser.id, (data) => {
       console.log("data");
       if (
         +data.result.userId == +currentUser.id &&
@@ -84,7 +84,7 @@ function SearchFriendItem(props) {
       }
     });
     return () => {
-      socket.off("friendUpdate");
+      socket.off("friendUpdate-" + currentUser.id);
     };
   }, [socket]);
 
