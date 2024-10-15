@@ -15,7 +15,7 @@ function Header() {
   const logout = useUserStore((state) => state.logout);
   const hdlLogout = () => {
     logout();
-    socket.on("disconnect");
+    socket.disconnect();
   };
 
   const user = useUserStore((state) => state.user);

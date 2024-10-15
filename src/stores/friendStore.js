@@ -11,6 +11,10 @@ const friendStore = (set, get) => ({
   setActiveChat: (chat) => {
     set({ activeChat: chat });
   },
+  activeGroup: null,
+  setActiveGroup: (group) => {
+    set({ activeGroup: group });
+  },
 });
 
 const usePersist = {

@@ -7,6 +7,14 @@ const utilStore = (set, get) => ({
   setMessageImageModal: (imgUrl) => {
     set({ messageImageModal: imgUrl });
   },
+  groupMessageImageModal: "",
+  setGroupMessageImageModal: (imgUrl) => {
+    set({ groupMessageImageModal: imgUrl });
+  },
+  groupPending: [],
+  setGroupPending: (pending) => {
+    set({ groupPending: pending });
+  },
 });
 
 const usePersist = {

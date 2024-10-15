@@ -3,8 +3,10 @@ import React, { useEffect, useState } from "react";
 import useUserStore from "../stores/userStore";
 import GroupCreateFriendList from "./GroupCreateFriendList";
 
-function GroupCreate() {
+function GroupCreate(props) {
+  const currentUser = useUserStore((state) => state.user);
   const token = useUserStore((state) => state.token);
+  const [groupName, setGroupName] = useState("");
   const [friendList, setFriendList] = useState([]);
   const [selectedFriends, setSelectedFriends] = useState([]);
 
@@ -15,9 +17,42 @@ function GroupCreate() {
           Authorization: `Bearer ${token}`,
         },
       });
-      //   console.log(res.data);
-      setFriendList(res.data);
-      return res.data.friends;
+      // console.log(res.data);
+      if (selectedFriends.length > 0) {
+        setFriendList(
+          res.data.filter(
+            (el) =>
+              !selectedFriends.some((selected) => selected.userId === el.userId)
+          )
+        );
+      } else {
+        setFriendList(res.data);
+      }
+      return res.data;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const createGroup = async () => {
+    try {
+      const body = {
+        groupName: groupName || "New Group",
+        groupImage: "",
+        groupMembers: [...selectedFriends.map((el) => ({ id: el.userId }))],
+      };
+      console.log(body);
+      const res = await axios.post(
+        "http://localhost:8000/group/creategroup",
+        body,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log(res.data);
+      return res.data;
     } catch (error) {
       console.log(error);
     }
@@ -27,8 +62,17 @@ function GroupCreate() {
     getFriendList();
   }, []);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log(selectedFriends);
+    const res = createGroup();
+    // console.log(res);
+    setGroupName("");
+    setSelectedFriends([]);
+    const data = await getFriendList();
+    setFriendList(data);
+    document.getElementById("group-create-modal").close();
+    // window.location.reload();
   };
 
   return (
@@ -39,6 +83,8 @@ function GroupCreate() {
           type="text"
           placeholder="Group Name"
           className="input w-full h-10 border-[2px]] border-white bg-gray-200"
+          value={groupName}
+          onChange={(e) => setGroupName(e.target.value)}
         />
         {/* invite friend */}
         <div className="flex gap-3">
