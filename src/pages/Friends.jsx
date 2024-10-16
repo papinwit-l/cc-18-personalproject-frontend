@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { Profiler, useEffect } from "react";
 import FriendBar from "../components/FriendBar";
 import useFriendStore from "../stores/friendStore";
 import FriendSelect from "../components/FriendSelect";
@@ -7,7 +7,7 @@ function Friends() {
   const friend = useFriendStore((state) => state.friend);
 
   useEffect(() => {
-    console.log(friend);
+    // console.log(friend);
   }, [friend]);
 
   return (

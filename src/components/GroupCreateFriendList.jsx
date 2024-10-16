@@ -28,7 +28,7 @@ function GroupCreateFriendList(props) {
   return (
     <div className="flex items-center p-2 bg-gray-200 border-b border-white justify-between">
       <div className="flex items-center gap-2">
-        <div className="w-7 h-7 p-1 bg-white rounded-full">
+        <div className="w-7 h-7 bg-white rounded-full overflow-hidden">
           <Avatar src={profileImage} />
         </div>
         <div>{friendName}</div>

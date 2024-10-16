@@ -1,6 +1,5 @@
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
-import axios from "axios";
 
 const friendStore = (set, get) => ({
   friend: null,
@@ -14,6 +13,14 @@ const friendStore = (set, get) => ({
   activeGroup: null,
   setActiveGroup: (group) => {
     set({ activeGroup: group });
+  },
+  activeGroupPending: null,
+  setActiveGroupPending: (pending) => {
+    set({ activeGroupPending: pending });
+  },
+  activeProfile: null,
+  setActiveProfile: (profile) => {
+    set({ activeProfile: profile });
   },
 });
 

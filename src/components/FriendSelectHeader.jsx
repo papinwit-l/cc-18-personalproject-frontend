@@ -4,7 +4,7 @@ import useFriendStore from "../stores/friendStore";
 function FriendSelectHeader() {
   const friend = useFriendStore((state) => state.friend);
   const setFriend = useFriendStore((state) => state.setFriend);
-  console.log(friend);
+  // console.log(friend);
 
   const hdlBackBtn = () => {
     setFriend(null);

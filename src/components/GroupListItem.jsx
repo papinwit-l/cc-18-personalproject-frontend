@@ -14,7 +14,7 @@ function GroupListItem(props) {
       onClick={() => setActiveGroup(group)}
     >
       <div className="flex gap-2 items-center">
-        <div className="w-7 h-7 rounded-full bg-white">
+        <div className="w-7 h-7 rounded-full bg-white overflow-hidden">
           <Avatar imgSrc={groupImage} />
         </div>
         <p>{groupName}</p>
@@ -26,7 +26,7 @@ function GroupListItem(props) {
       onClick={() => setActiveGroup(group)}
     >
       <div className="flex gap-2 items-center">
-        <div className="w-7 h-7 rounded-full bg-white">
+        <div className="w-7 h-7 rounded-full bg-white overflow-hidden">
           <Avatar imgSrc={groupImage} />
         </div>
         <p>{groupName}</p>

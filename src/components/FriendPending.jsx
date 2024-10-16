@@ -33,9 +33,9 @@ function FriendPending(props) {
   }, []);
 
   useEffect(() => {
-    console.log("aaaaa");
+    // console.log("aaaaa");
     socket.on("friendUpdate-" + currentUser.id, (data) => {
-      console.log("friendUpdate", data);
+      // console.log("friendUpdate", data);
       if (
         +data.result.userId == +currentUser.id ||
         +data.result.friendId == +currentUser.id

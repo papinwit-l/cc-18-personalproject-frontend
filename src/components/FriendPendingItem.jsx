@@ -75,7 +75,7 @@ function FriendPendingItem(props) {
       <div className="flex w-full flex-col gap-2 items-start justify-center p-2 bg-slate-300 border-[1px] hover:bg-slate-100">
         <div className="flex justify-between w-full">
           <div className="flex gap-2 items-center">
-            <div className="w-7 h-7 p-1 bg-white rounded-full">
+            <div className="w-7 h-7 bg-white rounded-full overflow-hidden">
               <Avatar imgSrc={friend.friend.Profile[0].profileImage} />
             </div>
             <p>

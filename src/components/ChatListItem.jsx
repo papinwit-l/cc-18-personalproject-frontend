@@ -18,7 +18,7 @@ function ChatListItem(props) {
       }
       onClick={() => setActiveChat(chat)}
     >
-      <div className="w-7 h-7 bg-white p-1 rounded-full">
+      <div className="w-7 h-7 bg-white rounded-full overflow-hidden">
         <Avatar imgSrc={friend.Profile[0].profileImage} />
       </div>
       {friend.Profile[0].name}

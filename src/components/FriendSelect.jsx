@@ -12,9 +12,10 @@ function FriendSelect() {
   const friend = useFriendStore((state) => state.friend);
   const setActiveChat = useFriendStore((state) => state.setActiveChat);
   const navigate = useNavigate();
+  const setActiveProfile = useFriendStore((state) => state.setActiveProfile);
 
-  console.log(user);
-  console.log(friend);
+  // console.log(user);
+  // console.log(friend);
 
   const getAllChats = async () => {
     try {
@@ -80,11 +81,18 @@ function FriendSelect() {
     setActiveChat(chat[0]);
     navigate("/chat");
   };
+
+  const hdlViewProfile = () => {
+    setActiveProfile(friend);
+    const modal = document.getElementById("profile-modal");
+    modal.showModal();
+  };
+
   return (
     <div className="flex flex-col w-full">
       <FriendSelectHeader />
       <div className="bg-slate-200 h-full flex flex-col">
-        <button>View Profile</button>
+        <button onClick={hdlViewProfile}>View Profile</button>
         <button onClick={hdlStartChat}>Start Chat</button>
       </div>
     </div>

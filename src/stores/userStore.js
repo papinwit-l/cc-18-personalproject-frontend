@@ -26,6 +26,9 @@ const userStore = (set, get) => ({
     set({ token: res.data.accessToken, user: res.data.user });
     return res.data;
   },
+  setUser: (user) => {
+    set({ user: user });
+  },
 });
 
 const usePersist = {

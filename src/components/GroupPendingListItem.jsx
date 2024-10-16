@@ -2,6 +2,7 @@ import React from "react";
 import Avatar from "./Avatar";
 import axios from "axios";
 import useUserStore from "../stores/userStore";
+import useFriendStore from "../stores/friendStore";
 
 function GroupPendingListItem(props) {
   const { group } = props;
@@ -11,6 +12,9 @@ function GroupPendingListItem(props) {
   const { chatImage: groupImage, name: groupName, id: groupId } = group.chat;
   //   console.log(groupImage);
   //   console.log(group);
+  const setActiveGroupPending = useFriendStore(
+    (state) => state.setActiveGroupPending
+  );
 
   const groupReject = async () => {
     try {
@@ -53,10 +57,19 @@ function GroupPendingListItem(props) {
     groupAccept();
   };
 
+  const hdlSetActiveGroupPending = () => {
+    setActiveGroupPending(group);
+    const modal = document.querySelector("#group-pending-modal");
+    modal.showModal();
+  };
+
   return (
-    <div className="flex flex-col p-2 bg-gray-300">
+    <div
+      className="flex flex-col p-2 bg-gray-300 hover:bg-gray-200"
+      onClick={hdlSetActiveGroupPending}
+    >
       <div className="flex gap-2 items-center">
-        <div className="w-7 h-7 rounded-full bg-white">
+        <div className="w-7 h-7 rounded-full bg-white overflow-hidden">
           <Avatar imgSrc={groupImage} />
         </div>
         <p>{groupName}</p>

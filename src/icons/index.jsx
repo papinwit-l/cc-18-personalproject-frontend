@@ -52,3 +52,22 @@ export function IconPicture(props) {
     </svg>
   );
 }
+
+export function IconEdit(props) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      {...props}
+    >
+      <path
+        d="M14 6l-6 6v4h4l6-6m-4-4l3-3 4 4-3 3m-4-4l4 4m-8-6H4v16h16v-6"
+        stroke="#000"
+        strokeWidth={1.5}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
