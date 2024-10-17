@@ -49,7 +49,7 @@ function ChatBody() {
   }, [activeChat]);
 
   useEffect(() => {
-    socket.on("message", (data) => {
+    socket.on("message-" + activeChat.id, (data) => {
       // console.log(data);
       setMessages((prev) => {
         // console.log(data);

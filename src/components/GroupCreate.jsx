@@ -1,9 +1,11 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import useUserStore from "../stores/userStore";
 import GroupCreateFriendList from "./GroupCreateFriendList";
+import { SocketContext } from "../contexts/SocketContext";
 
 function GroupCreate(props) {
+  const socket = useContext(SocketContext);
   const currentUser = useUserStore((state) => state.user);
   const token = useUserStore((state) => state.token);
   const [groupName, setGroupName] = useState("");
@@ -72,6 +74,7 @@ function GroupCreate(props) {
     const data = await getFriendList();
     setFriendList(data);
     document.getElementById("group-create-modal").close();
+    socket.emit("identify", { userId: currentUser.id });
     // window.location.reload();
   };
 

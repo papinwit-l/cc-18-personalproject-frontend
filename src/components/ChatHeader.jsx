@@ -6,7 +6,12 @@ function ChatHeader() {
   const currentUser = useUserStore((state) => state.user);
   const activeChat = useFriendStore((state) => state.activeChat);
   const setActiveChat = useFriendStore((state) => state.setActiveChat);
+  const setActiveProfile = useFriendStore((state) => state.setActiveProfile);
   // console.log(activeChat);
+  const friendProfile =
+    activeChat.ChatMembers[0].user.id == currentUser.id
+      ? activeChat.ChatMembers[1]
+      : activeChat.ChatMembers[0];
   const friend =
     activeChat.ChatMembers[0].user.id == currentUser.id
       ? activeChat.ChatMembers[1].user
@@ -23,7 +28,16 @@ function ChatHeader() {
         </button>
         <h1>{friend.Profile[0].name}</h1>
       </div>
-      <button>More</button>
+      <button
+        className="btn btn-sm"
+        onClick={() => {
+          setActiveProfile(friendProfile);
+          const modal = document.getElementById("profile-modal");
+          modal.showModal();
+        }}
+      >
+        View Profile
+      </button>
     </div>
   );
 }

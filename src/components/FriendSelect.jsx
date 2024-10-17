@@ -10,6 +10,7 @@ function FriendSelect() {
   const token = useUserStore((state) => state.token);
   const user = useUserStore((state) => state.user);
   const friend = useFriendStore((state) => state.friend);
+  const setFriend = useFriendStore((state) => state.setFriend);
   const setActiveChat = useFriendStore((state) => state.setActiveChat);
   const navigate = useNavigate();
   const setActiveProfile = useFriendStore((state) => state.setActiveProfile);
@@ -88,12 +89,36 @@ function FriendSelect() {
     modal.showModal();
   };
 
+  const unfriend = async () => {
+    try {
+      const res = await axios.delete(
+        `http://localhost:8000/user/unfriend/${friend.user.id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log(res.data);
+      return res.data;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const hdlUnfriend = async () => {
+    const res = await unfriend();
+    setActiveChat(null);
+    setFriend(null);
+  };
+
   return (
     <div className="flex flex-col w-full">
       <FriendSelectHeader />
       <div className="bg-slate-200 h-full flex flex-col">
         <button onClick={hdlViewProfile}>View Profile</button>
         <button onClick={hdlStartChat}>Start Chat</button>
+        <button onClick={hdlUnfriend}>Unfriend</button>
       </div>
     </div>
   );

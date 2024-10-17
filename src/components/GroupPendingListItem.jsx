@@ -32,7 +32,9 @@ function GroupPendingListItem(props) {
     }
   };
 
-  const hdlReject = () => {
+  const hdlReject = (e) => {
+    e.stopPropagation();
+    e.preventDefault();
     groupReject();
   };
 
@@ -53,11 +55,14 @@ function GroupPendingListItem(props) {
     }
   };
 
-  const hdlAccept = () => {
+  const hdlAccept = (e) => {
+    e.stopPropagation();
+    e.preventDefault();
     groupAccept();
   };
 
-  const hdlSetActiveGroupPending = () => {
+  const hdlSetActiveGroupPending = (e) => {
+    e.preventDefault();
     setActiveGroupPending(group);
     const modal = document.querySelector("#group-pending-modal");
     modal.showModal();

@@ -26,9 +26,19 @@ function Header() {
   const setActiveProfile = useFriendStore((state) => state.setActiveProfile);
 
   useEffect(() => {
-    console.log(activePage);
+    // console.log(activePage);
     setActivePage(location.pathname);
   }, [location.pathname]);
+
+  useEffect(() => {
+    socket.on("newChat-" + user.id, () => {
+      socket.emit("identify", { userId: user.id });
+      console.log("newChat-" + user.id);
+    });
+    return () => {
+      socket.off("newChat-" + user.id);
+    };
+  }, [socket]);
 
   return (
     <>

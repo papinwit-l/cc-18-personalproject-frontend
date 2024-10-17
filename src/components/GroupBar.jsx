@@ -37,7 +37,7 @@ function GroupBar() {
 
   const getGroupList = async () => {
     try {
-      console.log("getGroupList");
+      // console.log("getGroupList");
       const res = await axios.get("http://localhost:8000/group/getgrouplist", {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -47,7 +47,7 @@ function GroupBar() {
       const data = res.data.filter((el) => {
         return el.ChatMembers.some((el2) => el2.user.id === currentUser.id);
       });
-      console.log(data);
+      // console.log(data);
       setGroupList(data);
       return data;
     } catch (error) {
@@ -69,6 +69,15 @@ function GroupBar() {
       console.log(data);
       getGroupList();
     });
+    socket.on("groupMemberUpdate-" + currentUser.id, (data) => {
+      console.log(data);
+      getGroupList();
+    });
+    return () => {
+      socket.off("groupPendingMember-" + currentUser.id);
+      socket.off("groupUpdate-" + currentUser.id);
+      socket.off("groupMemberUpdate-" + currentUser.id);
+    };
   }, [socket]);
 
   return (
@@ -76,7 +85,11 @@ function GroupBar() {
       {toPendingg ? (
         <GroupPendingList setToPending={setToPending} />
       ) : (
-        <GroupList setToPending={setToPending} groupList={groupList} />
+        <GroupList
+          setToPending={setToPending}
+          groupList={groupList}
+          getGroupList={getGroupList}
+        />
       )}
 
       <dialog id="group-create-modal" className="modal mx-auto">

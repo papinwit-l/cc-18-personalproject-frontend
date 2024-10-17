@@ -7,6 +7,7 @@ import GroupChatFooter from "../components/GroupChatFooter";
 
 function Group() {
   const activeGroup = useFriendStore((state) => state.activeGroup);
+
   return (
     <div className="bg-slate-100 h-full flex">
       {/* Chat List */}

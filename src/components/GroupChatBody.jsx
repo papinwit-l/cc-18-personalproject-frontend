@@ -5,6 +5,7 @@ import useUserStore from "../stores/userStore";
 import MessageItem from "./MessageItem";
 import axios from "axios";
 import useFriendStore from "../stores/friendStore";
+import GroupMessageItem from "./GroupMessageItem";
 
 function GroupChatBody() {
   const socket = useContext(SocketContext);
@@ -50,7 +51,7 @@ function GroupChatBody() {
   }, [activeGroup]);
 
   useEffect(() => {
-    socket.on("message", (data) => {
+    socket.on("message-" + activeGroup.id, (data) => {
       // console.log(data);
       setMessages((prev) => {
         // console.log(data);
@@ -74,7 +75,7 @@ function GroupChatBody() {
     <>
       <div className="flex-1 bg-white overflow-y-auto flex flex-col gap-2 p-2">
         {messages.map((el) => (
-          <MessageItem key={el.id} messageChat={el} />
+          <GroupMessageItem key={el.id} messageChat={el} />
         ))}
         <div ref={chatBottomRef}></div>
       </div>
