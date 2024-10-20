@@ -71,3 +71,124 @@ export function IconEdit(props) {
     </svg>
   );
 }
+
+export function IconMenuChat(props) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      {...props}
+    >
+      <g stroke="#1C274C">
+        <path
+          d="M8 12h.009m3.982 0H12m3.991 0H16"
+          strokeWidth={2}
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12c0 1.6.376 3.112 1.043 4.453.178.356.237.763.134 1.148l-.595 2.226a1.3 1.3 0 001.591 1.591l2.226-.595a1.634 1.634 0 011.149.133A9.958 9.958 0 0012 22z"
+          strokeWidth={1.5}
+        />
+      </g>
+    </svg>
+  );
+}
+
+export function IconMenuChatActive(props) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      {...props}
+    >
+      <path
+        d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12c0 1.6.376 3.112 1.043 4.453.178.356.237.763.134 1.148l-.595 2.226a1.3 1.3 0 001.591 1.591l2.226-.595a1.634 1.634 0 011.149.133A9.958 9.958 0 0012 22z"
+        fill="#1C274C"
+      />
+      <path
+        d="M15 12a1 1 0 102 0 1 1 0 00-2 0zM11 12a1 1 0 102 0 1 1 0 00-2 0zM7 12a1 1 0 102 0 1 1 0 00-2 0z"
+        fill="#fff"
+      />
+    </svg>
+  );
+}
+
+export function IconMenuGroup(props) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      {...props}
+    >
+      <g stroke="#1C274C" strokeWidth={1.5}>
+        <circle cx={12} cy={6} r={4} />
+        <path
+          d="M18 9c1.657 0 3-1.12 3-2.5S19.657 4 18 4M6 9C4.343 9 3 7.88 3 6.5S4.343 4 6 4"
+          strokeLinecap="round"
+        />
+        <ellipse cx={12} cy={17} rx={6} ry={4} />
+        <path
+          d="M20 19c1.754-.385 3-1.359 3-2.5s-1.246-2.115-3-2.5M4 19c-1.754-.385-3-1.359-3-2.5s1.246-2.115 3-2.5"
+          strokeLinecap="round"
+        />
+      </g>
+    </svg>
+  );
+}
+
+export function IconMenuGroupActive(props) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      {...props}
+    >
+      <g fill="#1C274C">
+        <path d="M15.5 7.5a3.5 3.5 0 11-7 0 3.5 3.5 0 017 0zM18 16.5c0 1.933-2.686 3.5-6 3.5s-6-1.567-6-3.5S8.686 13 12 13s6 1.567 6 3.5zM7.122 5c.178 0 .35.017.518.05A4.977 4.977 0 007 7.5c0 .868.221 1.685.61 2.396-.158.03-.32.045-.488.045-1.414 0-2.561-1.106-2.561-2.47C4.561 6.106 5.708 5 7.122 5zM5.447 18.986C4.88 18.307 4.5 17.474 4.5 16.5c0-.944.357-1.756.896-2.423C3.49 14.225 2 15.267 2 16.529c0 1.275 1.517 2.325 3.447 2.457zM17 7.5c0 .868-.221 1.685-.61 2.396.157.03.32.045.488.045 1.414 0 2.56-1.106 2.56-2.47 0-1.365-1.146-2.471-2.56-2.471-.178 0-.35.017-.518.05.407.724.64 1.56.64 2.45zM18.553 18.986c1.93-.132 3.447-1.182 3.447-2.457 0-1.263-1.491-2.304-3.396-2.452.54.667.896 1.479.896 2.423 0 .974-.38 1.807-.947 2.486z" />
+      </g>
+    </svg>
+  );
+}
+
+export function IconMenuFriend(props) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      {...props}
+    >
+      <g stroke="#1C274C" strokeWidth={1.5}>
+        <circle cx={9} cy={6} r={4} />
+        <path d="M15 9a3 3 0 100-6" strokeLinecap="round" />
+        <ellipse cx={9} cy={17} rx={7} ry={4} />
+        <path
+          d="M18 14c1.754.385 3 1.359 3 2.5 0 1.03-1.014 1.923-2.5 2.37"
+          strokeLinecap="round"
+        />
+      </g>
+    </svg>
+  );
+}
+
+export function IconMenuFriendActive(props) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      {...props}
+    >
+      <g fill="#1C274C">
+        <circle cx={9.00098} cy={6} r={4} />
+        <ellipse cx={9.00098} cy={17.001} rx={7} ry={4} />
+        <path d="M21 17c0 1.657-2.036 3-4.521 3 .732-.8 1.236-1.805 1.236-2.998 0-1.195-.505-2.2-1.239-3.001C18.962 14 21 15.344 21 17zM18 6a3 3 0 01-4.029 2.82A5.688 5.688 0 0014.714 6c0-1.025-.27-1.987-.742-2.819A3 3 0 0118 6.001z" />
+      </g>
+    </svg>
+  );
+}

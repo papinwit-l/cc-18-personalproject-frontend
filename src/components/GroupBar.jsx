@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { act, useContext, useEffect, useState } from "react";
 import GroupCreate from "./GroupCreate";
 import { SocketContext } from "../contexts/SocketContext";
 import useUserStore from "../stores/userStore";
@@ -16,6 +16,8 @@ function GroupBar() {
   const setGroupPending = useUtilStore((state) => state.setGroupPending);
 
   const [groupList, setGroupList] = useState([]);
+
+  const activeGroup = useUtilStore((state) => state.activeGroup);
 
   const getPendingList = async () => {
     try {
@@ -44,12 +46,7 @@ function GroupBar() {
         },
       });
       //   console.log(res.data);
-      const data = res.data.filter((el) => {
-        return el.ChatMembers.some((el2) => el2.user.id === currentUser.id);
-      });
-      // console.log(data);
-      setGroupList(data);
-      return data;
+      return res.data;
     } catch (error) {
       console.log(error);
     }
@@ -57,7 +54,15 @@ function GroupBar() {
 
   useEffect(() => {
     getPendingList();
-    getGroupList();
+    getGroupList().then((res) => {
+      const data = res.map((el) => ({
+        ...el,
+        ChatMembers: el.ChatMembers.filter((el) => {
+          return el.userId !== currentUser.id;
+        }),
+      }));
+      setGroupList(data);
+    });
   }, []);
 
   useEffect(() => {
@@ -73,12 +78,27 @@ function GroupBar() {
       console.log(data);
       getGroupList();
     });
+    socket.on("chatGroupNotify-" + currentUser.id, (data) => {
+      console.log(data);
+      if (data.chatType === "GROUP") {
+        setGroupList((prev) => {
+          const newList = [...prev];
+          const index = newList.findIndex((el) => el.id === data.groupId);
+          if (index !== -1) {
+            //move to the top
+            newList.unshift(newList.splice(index, 1)[0]);
+          }
+          return newList;
+        });
+      }
+    });
     return () => {
       socket.off("groupPendingMember-" + currentUser.id);
-      socket.off("groupUpdate-" + currentUser.id);
       socket.off("groupMemberUpdate-" + currentUser.id);
+      socket.off("groupUpdate-" + currentUser.id);
+      socket.off("chatGroupNotify-" + currentUser.id);
     };
-  }, [socket]);
+  }, [socket, activeGroup]);
 
   return (
     <>

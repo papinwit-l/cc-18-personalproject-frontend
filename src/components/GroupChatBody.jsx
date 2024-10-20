@@ -64,12 +64,12 @@ function GroupChatBody() {
     });
 
     return () => {
-      socket.off("message");
+      socket.off("message-" + activeGroup.id);
       setTimeout(() => {
         scrollBottom();
       }, 0);
     };
-  }, [socket]);
+  }, [socket, activeGroup]);
 
   return (
     <>

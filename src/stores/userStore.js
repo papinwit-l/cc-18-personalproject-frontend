@@ -11,7 +11,7 @@ const userStore = (set, get) => ({
   token: "",
   login: async (input) => {
     const res = await axios.post("http://localhost:8000/auth/login", input);
-    console.log(res.data);
+    // console.log(res.data);
     set({ token: res.data.accessToken, user: res.data.user });
     return res.data;
   },
@@ -22,7 +22,7 @@ const userStore = (set, get) => ({
   },
   register: async (input) => {
     const res = await axios.post("http://localhost:8000/auth/register", input);
-    console.log(res.data);
+    // console.log(res.data);
     set({ token: res.data.accessToken, user: res.data.user });
     return res.data;
   },

@@ -11,7 +11,7 @@ function Group() {
   return (
     <div className="bg-slate-100 h-full flex">
       {/* Chat List */}
-      <div className="w-[300px] h-full">
+      <div className="w-[300px] h-full overflow-y-auto">
         <GroupBar />
       </div>
 

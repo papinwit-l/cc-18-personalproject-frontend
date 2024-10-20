@@ -10,11 +10,40 @@ function Register() {
     confirmPassword: "",
   });
   const register = useUserStore((state) => state.register);
+  const [registerError, setRegisterError] = useState(false);
+  const [registerErrorMsg, setRegisterErrorMsg] = useState("");
+
+  const registerValidate = () => {
+    if (
+      !form.username ||
+      !form.email ||
+      !form.password ||
+      !form.confirmPassword
+    ) {
+      setRegisterError(true);
+      setRegisterErrorMsg("Please fill in all fields");
+      return false;
+    }
+    if (form.password !== form.confirmPassword) {
+      setRegisterError(true);
+      setRegisterErrorMsg("Passwords do not match");
+      return false;
+    }
+    setRegisterError(false);
+    return true;
+  };
 
   const hdlSubmit = async (e) => {
-    e.preventDefault();
-    const res = await register(form);
-    console.log(res);
+    try {
+      e.preventDefault();
+      if (!registerValidate()) return;
+      const res = await register(form);
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+      setRegisterError(true);
+      setRegisterErrorMsg(error.response.data.message);
+    }
   };
 
   const hdlOnchange = (e) => {
@@ -62,6 +91,24 @@ function Register() {
             onChange={hdlOnchange}
           />
         </label>
+        {registerError && (
+          <div className="alert alert-error">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="stroke-current shrink-0 h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
+            </svg>
+            <span>{registerErrorMsg}</span>
+          </div>
+        )}
         <div className="divider my-0"></div>
         <button className="btn btn-primary text-white">Register</button>
       </form>

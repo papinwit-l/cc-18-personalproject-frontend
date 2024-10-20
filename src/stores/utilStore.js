@@ -15,6 +15,14 @@ const utilStore = (set, get) => ({
   setGroupPending: (pending) => {
     set({ groupPending: pending });
   },
+  chatNotify: [],
+  setChatNotify: (notify) => {
+    set({ chatNotify: notify });
+  },
+  groupNotify: [],
+  setGroupNotify: (notify) => {
+    set({ groupNotify: notify });
+  },
 });
 
 const usePersist = {

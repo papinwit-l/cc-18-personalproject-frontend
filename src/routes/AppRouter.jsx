@@ -15,6 +15,8 @@ import Home from "../pages/Home";
 import useUserStore from "../stores/userStore";
 import { useContext, useEffect } from "react";
 import { SocketContext } from "../contexts/SocketContext";
+import useUtilStore from "../stores/utilStore";
+import axios from "axios";
 // import socketIO from "socket.io-client";
 
 // const socket = socketIO("http://localhost:8000");
@@ -41,27 +43,52 @@ const userRouter = createBrowserRouter([
 function AppRouter() {
   const socket = useContext(SocketContext);
   const user = useUserStore((state) => state.user);
+  const logout = useUserStore((state) => state.logout);
+  const token = useUserStore((state) => state.token);
   const finalRouter = user ? userRouter : guestRouter;
+  const chatNotify = useUtilStore((state) => state.chatNotify);
+  const setChatNotify = useUtilStore((state) => state.setChatNotify);
 
   // console.log(user);
+
+  const testAuth = async () => {
+    try {
+      const res = await axios.get("http://localhost:8000/user/getfriends", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+    } catch (error) {
+      console.log(error);
+      logout();
+    }
+  };
 
   useEffect(() => {
     if (!user) return;
     socket.on("connect", () => {
+      testAuth();
       console.log("socket connected", socket.id);
+      socket.emit("identify", { userId: user.id });
+      socket.emit("getChatNotify", { userId: user.id });
     });
-    socket.emit("identify", { userId: user.id });
+    // socket.emit("identify", { userId: user.id });
     socket.on("joined_room", ({ room }) => {
       console.log(`Joined room: ${room}`);
     });
-    socket.on("test", (data) => {
+
+    socket.on("receiveChatNotify-" + user.id, (data) => {
       console.log(data);
+      const privateChat = data.filter((el) => el.chatType === "PRIVATE");
+      setChatNotify(privateChat);
     });
+
     return () => {
       socket.off("connect");
       socket.off("joined_room");
+      socket.off("receiveChatNotify-" + user.id);
     };
-  }, [user]);
+  }, [user, socket]);
 
   return <RouterProvider router={finalRouter} />;
 }

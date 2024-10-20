@@ -36,17 +36,17 @@ function GroupChatHeader() {
   }, []);
 
   useEffect(() => {
-    socket.on("groupMemberUpdate-" + user.id, (data) => {
+    socket.on("groupActiveMemberUpdate-" + user.id, (data) => {
       getChatMembers();
     });
-    socket.on("groupUpdate-" + user.id, (data) => {
+    socket.on("groupActiveUpdate-" + user.id, (data) => {
       // console.log(data);
       // console.log(activeGroup);
       setActiveGroup(data.updateGroup);
     });
     return () => {
-      socket.off("groupMemberUpdate-" + user.id);
-      socket.off("groupUpdate-" + user.id);
+      socket.off("groupActiveMemberUpdate-" + user.id);
+      socket.off("groupActiveUpdate-" + user.id);
     };
   }, [socket]);
 

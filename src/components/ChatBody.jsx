@@ -51,23 +51,26 @@ function ChatBody() {
   useEffect(() => {
     socket.on("message-" + activeChat.id, (data) => {
       // console.log(data);
-      setMessages((prev) => {
-        // console.log(data);
-        // console.log(prev);
-        return [...prev, data.message];
-      });
+      if (data.message.chatId == activeChat.id) {
+        // console.log("DDDDDD");
+        setMessages((prev) => {
+          // console.log(data);
+          // console.log(prev);
+          return [...prev, data.message];
+        });
+      }
       setTimeout(() => {
         scrollBottom();
       }, 0);
     });
 
     return () => {
-      socket.off("message");
+      socket.off("message-" + activeChat.id);
       setTimeout(() => {
         scrollBottom();
       }, 0);
     };
-  }, [socket]);
+  }, [socket, activeChat]);
 
   // useEffect(() => {
   //   socket.on("message", (data) => {

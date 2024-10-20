@@ -11,6 +11,7 @@ function ChatList() {
   const user = useUserStore((state) => state.user);
   const [chatList, setChatList] = useState([]);
   const activeChat = useFriendStore((state) => state.activeChat);
+  const notifySound = new Audio("..//assets/notify.mp3");
   // console.log(activeChat);
 
   const getAllChats = async () => {
@@ -23,7 +24,7 @@ function ChatList() {
           },
         }
       );
-      console.log(res.data);
+      // console.log(res.data);
       return res.data.chats;
     } catch (error) {
       console.log(error);
@@ -31,16 +32,38 @@ function ChatList() {
   };
   useEffect(() => {
     getAllChats().then((res) => {
-      setChatList(
-        res.map((el) => ({
-          ...el,
-          ChatMembers: el.ChatMembers.filter((el) => {
-            return el.userId !== user.id;
-          }),
-        }))
-      );
+      const data = res.map((el) => ({
+        ...el,
+        ChatMembers: el.ChatMembers.filter((el) => {
+          return el.userId !== user.id;
+        }),
+      }));
+      setChatList(data);
     });
   }, []);
+
+  useEffect(() => {
+    socket.on("chatNotify-" + user.id, (data) => {
+      console.log(data);
+      if (data.chatType === "PRIVATE") {
+        setChatList((prevChatList) => {
+          const newChatlist = [...prevChatList];
+          const index = newChatlist.findIndex((el) => el.id == data.chatId);
+          if (index !== -1) {
+            // newChatlist[index].notify = true;
+            // move to top
+            newChatlist.unshift(newChatlist.splice(index, 1)[0]);
+          }
+          // console.log(newChatlist);
+          return newChatlist;
+        });
+      }
+    });
+    return () => {
+      socket.off("chatNotify-" + user.id);
+    };
+  }, [socket]);
+
   return (
     <div className="bg-slate-400 h-full">
       ChatList
