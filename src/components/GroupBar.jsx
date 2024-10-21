@@ -18,12 +18,13 @@ function GroupBar() {
   const [groupList, setGroupList] = useState([]);
 
   const activeGroup = useUtilStore((state) => state.activeGroup);
+  const elevateGroupOnMsg = useUtilStore((state) => state.elevateGroupOnMsg);
 
   const getPendingList = async () => {
     try {
       //   console.log("getPendingList");
       const res = await axios.get(
-        "http://localhost:8000/group/getpendinglist",
+        import.meta.env.VITE_HOST_IP + "/group/getpendinglist",
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -40,12 +41,24 @@ function GroupBar() {
   const getGroupList = async () => {
     try {
       // console.log("getGroupList");
-      const res = await axios.get("http://localhost:8000/group/getgrouplist", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const res = await axios.get(
+        import.meta.env.VITE_HOST_IP + "/group/getgrouplist",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       //   console.log(res.data);
+
+      const data = res.data.map((el) => ({
+        ...el,
+        ChatMembers: el.ChatMembers.filter((el) => {
+          return el.userId !== currentUser.id;
+        }),
+      }));
+      setGroupList(data);
+
       return res.data;
     } catch (error) {
       console.log(error);
@@ -54,16 +67,25 @@ function GroupBar() {
 
   useEffect(() => {
     getPendingList();
-    getGroupList().then((res) => {
-      const data = res.map((el) => ({
-        ...el,
-        ChatMembers: el.ChatMembers.filter((el) => {
-          return el.userId !== currentUser.id;
-        }),
-      }));
-      setGroupList(data);
-    });
+    getGroupList();
   }, []);
+
+  useEffect(() => {
+    if (elevateGroupOnMsg) {
+      setGroupList((prev) => {
+        const newList = [...prev];
+        const index = newList.findIndex((el) => el.id == elevateGroupOnMsg);
+        // console.log(index);
+        if (index !== -1) {
+          // console.log("index", index);
+          //move to the top
+          newList.unshift(newList.splice(index, 1)[0]);
+        }
+        // console.log(newList);
+        return newList;
+      });
+    }
+  }, [elevateGroupOnMsg]);
 
   useEffect(() => {
     socket.on("groupPendingMember-" + currentUser.id, (data) => {
@@ -79,15 +101,18 @@ function GroupBar() {
       getGroupList();
     });
     socket.on("chatGroupNotify-" + currentUser.id, (data) => {
-      console.log(data);
+      // console.log(data);
       if (data.chatType === "GROUP") {
         setGroupList((prev) => {
           const newList = [...prev];
-          const index = newList.findIndex((el) => el.id === data.groupId);
+          const index = newList.findIndex((el) => el.id == data.chatId);
+          // console.log(index);
           if (index !== -1) {
+            // console.log("index", index);
             //move to the top
             newList.unshift(newList.splice(index, 1)[0]);
           }
+          // console.log(newList);
           return newList;
         });
       }

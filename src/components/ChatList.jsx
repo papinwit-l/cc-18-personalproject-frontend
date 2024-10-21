@@ -4,6 +4,7 @@ import useUserStore from "../stores/userStore";
 import { SocketContext } from "../contexts/SocketContext";
 import ChatListItem from "./ChatListItem";
 import useFriendStore from "../stores/friendStore";
+import useUtilStore from "../stores/utilStore";
 
 function ChatList() {
   const socket = useContext(SocketContext);
@@ -12,12 +13,13 @@ function ChatList() {
   const [chatList, setChatList] = useState([]);
   const activeChat = useFriendStore((state) => state.activeChat);
   const notifySound = new Audio("..//assets/notify.mp3");
+  const elevateChatOnMsg = useUtilStore((state) => state.elevateChatOnMsg);
   // console.log(activeChat);
 
   const getAllChats = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:8000/chat/getallprivatechats",
+        import.meta.env.VITE_HOST_IP + "/chat/getallprivatechats",
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -63,6 +65,22 @@ function ChatList() {
       socket.off("chatNotify-" + user.id);
     };
   }, [socket]);
+
+  useEffect(() => {
+    if (elevateChatOnMsg) {
+      setChatList((prevChatList) => {
+        const newChatlist = [...prevChatList];
+        const index = newChatlist.findIndex((el) => el.id == elevateChatOnMsg);
+        if (index !== -1) {
+          // newChatlist[index].notify = true;
+          // move to top
+          newChatlist.unshift(newChatlist.splice(index, 1)[0]);
+        }
+        // console.log(newChatlist);
+        return newChatlist;
+      });
+    }
+  }, [elevateChatOnMsg]);
 
   return (
     <div className="bg-slate-400 h-full">

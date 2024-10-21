@@ -13,11 +13,14 @@ function FriendList(props) {
   };
   const fetchFriend = async () => {
     try {
-      const res = await axios.get("http://localhost:8000/user/getfriends", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const res = await axios.get(
+        import.meta.env.VITE_HOST_IP + "/user/getfriends",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       // console.log(res.data);
       setFriendList(res.data);
     } catch (error) {

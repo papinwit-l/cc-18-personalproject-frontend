@@ -3,6 +3,7 @@ import useUserStore from "../stores/userStore";
 import { SocketContext } from "../contexts/SocketContext";
 import useFriendStore from "../stores/friendStore";
 import { IconDownArrow, IconPicture, IconUpArrow } from "../icons";
+import useUtilStore from "../stores/utilStore";
 
 function ChatFooter() {
   const socket = useContext(SocketContext);
@@ -15,6 +16,9 @@ function ChatFooter() {
   const [menuState, setMenuState] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
   const [imgPreview, setImgPreview] = useState(null);
+  const setElevateChatOnMsg = useUtilStore(
+    (state) => state.setElevateChatOnMsg
+  );
 
   const hdlOnchange = (e) => {
     setMessage(e.target.value);
@@ -71,6 +75,7 @@ function ChatFooter() {
       });
       clearImage();
     }
+    setElevateChatOnMsg(chatId);
   };
 
   const hdlMenuState = (e) => {

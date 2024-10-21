@@ -19,7 +19,7 @@ function GroupPendingListItem(props) {
   const groupReject = async () => {
     try {
       const res = await axios.delete(
-        "http://localhost:8000/group/rejectinvite/" + groupId,
+        import.meta.env.VITE_HOST_IP + "/group/rejectinvite/" + groupId,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -41,7 +41,7 @@ function GroupPendingListItem(props) {
   const groupAccept = async () => {
     try {
       const res = await axios.put(
-        "http://localhost:8000/group/acceptinvite/" + groupId,
+        import.meta.env.VITE_HOST_IP + "/group/acceptinvite/" + groupId,
         {},
         {
           headers: {

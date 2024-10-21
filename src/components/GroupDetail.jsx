@@ -8,6 +8,7 @@ import GroupDetailMember from "./GroupDetailMember";
 import axios from "axios";
 import { SocketContext } from "../contexts/SocketContext";
 import GroupDetailEdit from "./GroupDetailEdit";
+import GroupInvite from "./GroupInvite";
 
 function GroupDetail(props) {
   const socket = useContext(SocketContext);
@@ -22,7 +23,9 @@ function GroupDetail(props) {
   const getGroupChatMembers = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:8000/group/getgroupmembers/${activeGroup.id}`,
+        `${import.meta.env.VITE_HOST_IP}/group/getgroupmembers/${
+          activeGroup.id
+        }`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -40,7 +43,9 @@ function GroupDetail(props) {
   const getPendingMembers = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:8000/group/getpendinggroupmembers/${activeGroup.id}`,
+        `${import.meta.env.VITE_HOST_IP}/group/getpendinggroupmembers/${
+          activeGroup.id
+        }`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -58,7 +63,7 @@ function GroupDetail(props) {
   const leaveGroup = async () => {
     try {
       const res = await axios.delete(
-        `http://localhost:8000/group/leavegroup/${activeGroup.id}`,
+        `${import.meta.env.VITE_HOST_IP}/group/leavegroup/${activeGroup.id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -92,9 +97,9 @@ function GroupDetail(props) {
       //   setGroupChatMembers(data.groupChatMembers);
     });
     return () => {
-      socket.off("groupPendingMember-" + activeGroup.id);
+      socket.off("groupMemberUpdate-" + currentUser.id);
     };
-  }, [socket]);
+  }, [socket, activeGroup]);
 
   return editMode ? (
     <GroupDetailEdit setEditMode={setEditMode} />
@@ -137,7 +142,15 @@ function GroupDetail(props) {
           </div>
         </div>
         <div className="flex-1 flex mt-4 gap-4">
-          <button className="btn btn-sm">Invite</button>
+          <button
+            className="btn btn-sm"
+            onClick={() => {
+              const modal = document.getElementById("group-invite-modal");
+              modal.showModal();
+            }}
+          >
+            Invite
+          </button>
           <button
             className="btn btn-sm btn-error"
             onClick={() => {
@@ -166,6 +179,25 @@ function GroupDetail(props) {
               Cancel
             </button>
           </div>
+        </div>
+      </dialog>
+      {/* INVITE MEMBER MODAL */}
+      <dialog id="group-invite-modal" className="modal mx-auto">
+        <div className="modal-box rounded-md bg-gray-400 w-fit">
+          {/* if there is a button in form, it will close the modal */}
+          <button
+            type="button"
+            className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2 focus:outline-none"
+            onClick={(e) => {
+              e.target.closest("#group-invite-modal").close();
+            }}
+          >
+            ✕
+          </button>
+          <GroupInvite
+            pendingMembers={pendingMembers}
+            groupChatMembers={groupChatMembers}
+          />
         </div>
       </dialog>
     </>

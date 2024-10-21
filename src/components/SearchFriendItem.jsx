@@ -17,7 +17,7 @@ function SearchFriendItem(props) {
   const hdlAddBtn = async (e) => {
     try {
       const res = await axios.post(
-        `http://localhost:8000/user/addfriend/${user.id}`,
+        `${import.meta.env.VITE_HOST_IP}/user/addfriend/${user.id}`,
         {},
         {
           headers: {
@@ -34,7 +34,7 @@ function SearchFriendItem(props) {
   const hdlRemoveRequest = async (e) => {
     try {
       const res = await axios.delete(
-        `http://localhost:8000/user/removerequest/${user.id}`,
+        `${import.meta.env.VITE_HOST_IP}/user/removerequest/${user.id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -51,7 +51,7 @@ function SearchFriendItem(props) {
   const hdlAcceptRequest = async (e) => {
     try {
       const res = await axios.put(
-        `http://localhost:8000/user/acceptrequest/${user.id}`,
+        `${import.meta.env.VITE_HOST_IP}/user/acceptrequest/${user.id}`,
         {},
         {
           headers: {

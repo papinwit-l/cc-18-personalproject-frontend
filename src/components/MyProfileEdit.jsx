@@ -55,7 +55,7 @@ function MyProfileEdit(props) {
         body.append("profileImage", selectedImage);
       }
       const res = await axios.patch(
-        "http://localhost:8000/user/editprofile",
+        import.meta.env.VITE_HOST_IP + "/user/editprofile",
         body,
         {
           headers: {

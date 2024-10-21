@@ -14,7 +14,7 @@ function FriendPendingItem(props) {
   const hdlRemoveRequest = async (e) => {
     try {
       const res = await axios.delete(
-        `http://localhost:8000/user/removerequest/${friend.friendId}`,
+        `${import.meta.env.VITE_HOST_IP}/user/removerequest/${friend.friendId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -31,7 +31,7 @@ function FriendPendingItem(props) {
   const hdlAcceptRequest = async (e) => {
     try {
       const res = await axios.put(
-        `http://localhost:8000/user/acceptrequest/${friend.friendId}`,
+        `${import.meta.env.VITE_HOST_IP}/user/acceptrequest/${friend.friendId}`,
         {},
         {
           headers: {

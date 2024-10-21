@@ -17,7 +17,9 @@ function GroupChatHeader() {
   const getChatMembers = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:8000/group/getgroupmembers/" + activeGroup.id,
+        import.meta.env.VITE_HOST_IP +
+          "/group/getgroupmembers/" +
+          activeGroup.id,
         {
           headers: {
             Authorization: `Bearer ${token}`,

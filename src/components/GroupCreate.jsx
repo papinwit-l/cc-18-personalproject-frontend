@@ -14,11 +14,14 @@ function GroupCreate(props) {
 
   const getFriendList = async () => {
     try {
-      const res = await axios.get("http://localhost:8000/user/getfriends", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const res = await axios.get(
+        import.meta.env.VITE_HOST_IP + "/user/getfriends",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       // console.log(res.data);
       if (selectedFriends.length > 0) {
         setFriendList(
@@ -43,9 +46,9 @@ function GroupCreate(props) {
         groupImage: "",
         groupMembers: [...selectedFriends.map((el) => ({ id: el.userId }))],
       };
-      console.log(body);
+      // console.log(body);
       const res = await axios.post(
-        "http://localhost:8000/group/creategroup",
+        import.meta.env.VITE_HOST_IP + "/group/creategroup",
         body,
         {
           headers: {
@@ -66,7 +69,7 @@ function GroupCreate(props) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(selectedFriends);
+    // console.log(selectedFriends);
     const res = createGroup();
     // console.log(res);
     setGroupName("");

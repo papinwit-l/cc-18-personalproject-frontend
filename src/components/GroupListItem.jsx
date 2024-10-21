@@ -1,10 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Avatar from "./Avatar";
 import useFriendStore from "../stores/friendStore";
 import useUtilStore from "../stores/utilStore";
+import useUserStore from "../stores/userStore";
+import { SocketContext } from "../contexts/SocketContext";
 
 function GroupListItem(props) {
   const { group } = props;
+  const socket = useContext(SocketContext);
   const activeGroup = useFriendStore((state) => state.activeGroup);
   const setActiveGroup = useFriendStore((state) => state.setActiveGroup);
   //   console.log(group);
@@ -15,8 +18,11 @@ function GroupListItem(props) {
   } = group;
 
   const groupNotify = useUtilStore((state) => state.groupNotify);
+  console.log(groupNotify);
   const setGroupNotify = useUtilStore((state) => state.setGroupNotify);
   const [notify, setNotify] = useState(false);
+
+  const user = useUserStore((state) => state.user);
 
   const hdlSelectGroup = () => {
     setActiveGroup(group);
@@ -24,17 +30,18 @@ function GroupListItem(props) {
   };
 
   const updateNotify = async (notify) => {
-    socket.emit("updateGroupNotify", {
-      groupId: group.id,
+    socket.emit("updateChatNotify", {
+      chatId: group.id,
       userId: user.id,
       messageId: notify[0].messageId,
     });
   };
 
   useEffect(() => {
-    const tempNotify = groupNotify.filter((el) => el.groupId == group.id);
+    const tempNotify = groupNotify.filter((el) => el.chatId == group.id);
+    console.log(tempNotify);
     if (tempNotify.length > 0) {
-      if (activeGroup && activeGroup.id === tempNotify[0].groupId) {
+      if (activeGroup && activeGroup.id === tempNotify[0].chatId) {
         setNotify(false);
         updateNotify(tempNotify);
       } else {
@@ -55,8 +62,8 @@ function GroupListItem(props) {
         <p>
           {groupName} ({groupMembers.length})
         </p>
+        {notify && <div className="bg-red-500 w-2 h-2 rounded-full"></div>}
       </div>
-      {notify && <div className="bg-red-500 w-2 h-2 rounded-full"></div>}
     </div>
   ) : (
     <div
@@ -70,8 +77,8 @@ function GroupListItem(props) {
         <p>
           {groupName} ({groupMembers.length})
         </p>
+        {notify && <div className="bg-red-500 w-2 h-2 rounded-full"></div>}
       </div>
-      {notify && <div className="bg-red-500 w-2 h-2 rounded-full"></div>}
     </div>
   );
 }

@@ -19,7 +19,7 @@ import useUtilStore from "../stores/utilStore";
 import axios from "axios";
 // import socketIO from "socket.io-client";
 
-// const socket = socketIO("http://localhost:8000");
+// const socket = socketIO(import.meta.env.VITE_HOST_IP+"");
 
 const guestRouter = createBrowserRouter([
   { path: "/", element: <Login /> },
@@ -48,16 +48,20 @@ function AppRouter() {
   const finalRouter = user ? userRouter : guestRouter;
   const chatNotify = useUtilStore((state) => state.chatNotify);
   const setChatNotify = useUtilStore((state) => state.setChatNotify);
+  const setGroupNotify = useUtilStore((state) => state.setGroupNotify);
 
   // console.log(user);
 
   const testAuth = async () => {
     try {
-      const res = await axios.get("http://localhost:8000/user/getfriends", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const res = await axios.get(
+        import.meta.env.VITE_HOST_IP + "/user/getfriends",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
     } catch (error) {
       console.log(error);
       logout();
@@ -80,7 +84,9 @@ function AppRouter() {
     socket.on("receiveChatNotify-" + user.id, (data) => {
       console.log(data);
       const privateChat = data.filter((el) => el.chatType === "PRIVATE");
+      const groupChat = data.filter((el) => el.chatType === "GROUP");
       setChatNotify(privateChat);
+      setGroupNotify(groupChat);
     });
 
     return () => {

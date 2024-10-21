@@ -24,7 +24,9 @@ function GroupChatBody() {
   const getMessage = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:8000/chat/getchatmessages/" + activeGroup.id,
+        import.meta.env.VITE_HOST_IP +
+          "/chat/getchatmessages/" +
+          activeGroup.id,
         {
           headers: {
             Authorization: `Bearer ${token}`,

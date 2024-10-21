@@ -3,6 +3,7 @@ import { SocketContext } from "../contexts/SocketContext";
 import { IconDownArrow, IconPicture, IconUpArrow } from "../icons";
 import useFriendStore from "../stores/friendStore";
 import useUserStore from "../stores/userStore";
+import useUtilStore from "../stores/utilStore";
 
 function GroupChatFooter() {
   const socket = useContext(SocketContext);
@@ -15,6 +16,9 @@ function GroupChatFooter() {
   const [menuState, setMenuState] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
   const [imgPreview, setImgPreview] = useState(null);
+  const setElevateGroupOnMsg = useUtilStore(
+    (state) => state.setElevateGroupOnMsg
+  );
 
   const handleFileChange = (e) => {
     e.preventDefault();
@@ -76,6 +80,7 @@ function GroupChatFooter() {
       });
       clearImage();
     }
+    setElevateGroupOnMsg(chatId);
   };
 
   return (

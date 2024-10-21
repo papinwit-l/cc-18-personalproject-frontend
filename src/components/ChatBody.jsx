@@ -22,7 +22,7 @@ function ChatBody() {
   const getMessage = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:8000/chat/getchatmessages/" + activeChat.id,
+        import.meta.env.VITE_HOST_IP + "/chat/getchatmessages/" + activeChat.id,
         {
           headers: {
             Authorization: `Bearer ${token}`,

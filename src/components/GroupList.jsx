@@ -14,15 +14,15 @@ function GroupList(props) {
     document.getElementById("group-create-modal").showModal();
   };
 
-  useEffect(() => {
-    socket.on("groupUpdate-", +currentUser.id, () => {
-      console.log("groupUpdate-", +currentUser.id);
-      getGroupList();
-    });
-    return () => {
-      socket.off("groupUpdate-", +currentUser.id);
-    };
-  }, [socket]);
+  // useEffect(() => {
+  //   socket.on("groupUpdate-", +currentUser.id, () => {
+  //     console.log("groupUpdate-", +currentUser.id);
+  //     getGroupList();
+  //   });
+  //   return () => {
+  //     socket.off("groupUpdate-", +currentUser.id);
+  //   };
+  // }, [socket]);
 
   return (
     <div className="bg-slate-400 h-full w-full flex flex-col">

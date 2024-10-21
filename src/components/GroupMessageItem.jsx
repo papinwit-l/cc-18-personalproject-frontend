@@ -18,11 +18,11 @@ function GroupMessageItem(props) {
   const currentUser = useUserStore((state) => state.user);
   const [sender, setSender] = useState(null);
 
-  console.log(messageChat);
+  // console.log(messageChat);
 
   const findSender = async () => {
     const res = await axios.get(
-      `http://localhost:8000/chat/getsenderdetails/${senderId}`,
+      `${import.meta.env.VITE_HOST_IP}/chat/getsenderdetails/${senderId}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -35,7 +35,7 @@ function GroupMessageItem(props) {
   };
 
   useEffect(() => {
-    findSender();
+    // findSender();
   }, [messageChat]);
 
   return currentUser.id === senderId ? (
@@ -61,7 +61,7 @@ function GroupMessageItem(props) {
           <div className="text-xs text-gray-500">
             {new Date(createdAt).toLocaleString()}
           </div>
-          <div>{sender?.Profile[0]?.name}</div>
+          <div>{messageChat.user.Profile[0].name}</div>
           <div className="bg-gray-200 p-2 rounded-lg">
             <GroupMessageItemDetail
               message={message}

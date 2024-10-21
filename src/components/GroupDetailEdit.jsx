@@ -59,7 +59,7 @@ function GroupDetailEdit(props) {
         body.append("groupImage", selectedImage);
       }
       const res = await axios.patch(
-        "http://localhost:8000/group/editprofile",
+        import.meta.env.VITE_HOST_IP + "/group/editgroup",
         body,
         {
           headers: {

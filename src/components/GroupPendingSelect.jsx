@@ -21,7 +21,9 @@ function GroupPendingSelect() {
   const getPendingMember = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:8000/group/getpendinggroupmembers/" + groupId,
+        import.meta.env.VITE_HOST_IP +
+          "/group/getpendinggroupmembers/" +
+          groupId,
         {
           headers: {
             Authorization: `Bearer ${token}`,

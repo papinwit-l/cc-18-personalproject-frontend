@@ -14,7 +14,7 @@ function FriendPending(props) {
   const getFriendPending = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:8000/user/getpendingrequest",
+        import.meta.env.VITE_HOST_IP + "/user/getpendingrequest",
         {
           headers: {
             Authorization: `Bearer ${token}`,

@@ -10,7 +10,10 @@ const userStore = (set, get) => ({
   user: null,
   token: "",
   login: async (input) => {
-    const res = await axios.post("http://localhost:8000/auth/login", input);
+    const res = await axios.post(
+      import.meta.env.VITE_HOST_IP + "/auth/login",
+      input
+    );
     // console.log(res.data);
     set({ token: res.data.accessToken, user: res.data.user });
     return res.data;
@@ -21,7 +24,10 @@ const userStore = (set, get) => ({
     setActiveChat(null);
   },
   register: async (input) => {
-    const res = await axios.post("http://localhost:8000/auth/register", input);
+    const res = await axios.post(
+      import.meta.env.VITE_HOST_IP + "/auth/register",
+      input
+    );
     // console.log(res.data);
     set({ token: res.data.accessToken, user: res.data.user });
     return res.data;

@@ -21,7 +21,7 @@ function FriendSelect() {
   const getAllChats = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:8000/chat/getallprivatechats",
+        import.meta.env.VITE_HOST_IP + "/chat/getallprivatechats",
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -60,7 +60,7 @@ function FriendSelect() {
         chatType: "PRIVATE",
       };
       const res = await axios.post(
-        "http://localhost:8000/chat/createchat",
+        import.meta.env.VITE_HOST_IP + "/chat/createchat",
         body,
         {
           headers: {
@@ -92,7 +92,7 @@ function FriendSelect() {
   const unfriend = async () => {
     try {
       const res = await axios.delete(
-        `http://localhost:8000/user/unfriend/${friend.user.id}`,
+        `${import.meta.env.VITE_HOST_IP}/user/unfriend/${friend.user.id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

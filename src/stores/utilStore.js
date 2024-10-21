@@ -23,6 +23,14 @@ const utilStore = (set, get) => ({
   setGroupNotify: (notify) => {
     set({ groupNotify: notify });
   },
+  elevateChatOnMsg: null,
+  setElevateChatOnMsg: (chatId) => {
+    set({ elevateChatOnMsg: chatId });
+  },
+  elevateGroupOnMsg: null,
+  setElevateGroupOnMsg: (chatId) => {
+    set({ elevateGroupOnMsg: chatId });
+  },
 });
 
 const usePersist = {

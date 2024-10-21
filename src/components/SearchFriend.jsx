@@ -23,7 +23,7 @@ function SearchFriend(props) {
     try {
       setUserList([]);
       const res = await axios.get(
-        `http://localhost:8000/user/finduser/${searchText}`,
+        `${import.meta.env.VITE_HOST_IP}/user/finduser/${searchText}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

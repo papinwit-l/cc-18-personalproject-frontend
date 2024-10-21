@@ -40,9 +40,17 @@ function Header() {
   const groupNotify = useUtilStore((state) => state.groupNotify);
   const setGroupNotify = useUtilStore((state) => state.setGroupNotify);
 
-  const [playNotifySound] = useSound(notifySound, {
-    interrupt: true,
-  });
+  // const [playNotifySound] = useSound(notifySound, {
+  //   interrupt: true,
+  // });
+
+  const AudioRef = useRef(new Audio(notifySound));
+  const playNotifySound = () => {
+    const audioContext = new (window.AudioContext || window.AudioContext)();
+    audioContext.resume().then(() => {
+      AudioRef.current.play();
+    });
+  };
 
   useEffect(() => {
     // console.log(activePage);
@@ -53,26 +61,49 @@ function Header() {
     socket.on("newChat-" + user.id, () => {
       socket.emit("identify", { userId: user.id });
       console.log("newChat-" + user.id);
+      //fecthChat();
     });
     socket.on("chatNotify-" + user.id, (data) => {
       // Create and resume AudioContext on user interaction
       const audioContext = new (window.AudioContext || window.AudioContext)();
-      if (audioContext.state === "suspended") {
-        audioContext.resume().then(() => {
-          playNotifySound();
-        });
-      } else {
-        playNotifySound();
-      }
+      // audioContext.resume().then(() => {
+      //   playNotifySound();
+      // });
+      // if (audioContext.state === "suspended") {
+      //   audioContext.resume().then(() => {
+      //     playNotifySound();
+      //   });
+      // } else {
+      //   playNotifySound();
+      // }
+
+      playNotifySound();
 
       // console.log(data);
       // console.log(chatNotify);
       if (data.chatType === "PRIVATE") {
         setChatNotify([data, ...chatNotify]);
       }
+    });
+    socket.on("chatGroupNotify-" + user.id, (data) => {
+      // Create and resume AudioContext on user interaction
+      // const audioContext = new (window.AudioContext || window.AudioContext)();
+      // // audioContext.resume().then(() => {
+      // //   playNotifySound();
+      // // });
+
+      // if (audioContext.state === "suspended") {
+      //   audioContext.resume().then(() => {
+      //     playNotifySound();
+      //   });
+      // } else {
+      //   playNotifySound();
+      // }
+
       if (data.chatType === "GROUP") {
         setGroupNotify([data, ...groupNotify]);
       }
+      playNotifySound();
     });
     return () => {
       socket.off("newChat-" + user.id);
@@ -89,19 +120,15 @@ function Header() {
               {activePage.includes("chat") ? (
                 <a href="/chat" className="flex header-menu-active h-full px-4">
                   <IconMenuChatActive className="h-6" /> Chat{" "}
-                  {chatNotify.length > 0 ? (
-                    <span className="text-red-500">{chatNotify.length}</span>
-                  ) : (
-                    ""
+                  {chatNotify.length > 0 && (
+                    <div className="bg-red-500 w-2 h-2 rounded-full"></div>
                   )}
                 </a>
               ) : (
                 <a href="/chat" className="flex items-center h-full px-4">
                   <IconMenuChat className="h-[1.4rem]" /> Chat{" "}
-                  {chatNotify.length > 0 ? (
-                    <span className="text-red-500">{chatNotify.length}</span>
-                  ) : (
-                    ""
+                  {chatNotify.length > 0 && (
+                    <div className="bg-red-500 w-2 h-2 rounded-full"></div>
                   )}
                 </a>
               )}
@@ -127,26 +154,38 @@ function Header() {
                   className="flex header-menu-active h-full px-4"
                 >
                   <IconMenuGroupActive className="h-7" /> Groups{" "}
-                  {groupNotify.length > 0 ? (
-                    <span className="text-red-500">{groupNotify.length}</span>
-                  ) : (
-                    ""
+                  {groupNotify.length > 0 && (
+                    <div className="bg-red-500 w-2 h-2 rounded-full"></div>
                   )}
                 </a>
               ) : (
                 <a href="/groups" className="flex items-center h-full px-4">
                   <IconMenuGroup className="h-[1.4rem]" /> Groups{" "}
-                  {groupNotify.length > 0 ? (
-                    <span className="text-red-500">{groupNotify.length}</span>
-                  ) : (
-                    ""
+                  {groupNotify.length > 0 && (
+                    <div className="bg-red-500 w-2 h-2 rounded-full"></div>
                   )}
                 </a>
               )}
             </li>
           </ul>
         </nav>
-        <nav>
+        <nav className="flex items-center gap-2">
+          {/* <button
+            className="btn btn-sm"
+            onClick={() => {
+              // const audioContext = new (window.AudioContext ||
+              //   window.AudioContext)();
+              // if (audioContext.state === "suspended") {
+              //   audioContext.resume().then(() => {
+              //     playNotifySound();
+              //   });
+              // } else {
+              //   playNotifySound();
+              // }
+            }}
+          >
+            Notify
+          </button> */}
           <ul>
             <li>
               <div className="dropdown dropdown-end">
