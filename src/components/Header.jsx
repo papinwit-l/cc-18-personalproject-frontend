@@ -17,7 +17,6 @@ import Profile from "./Profile";
 import useFriendStore from "../stores/friendStore";
 import MyProfile from "./MyProfile";
 import notifySound from "../assets/sound/notify_sound.wav";
-import useSound from "use-sound";
 
 function Header() {
   const socket = useContext(SocketContext);
@@ -40,14 +39,11 @@ function Header() {
   const groupNotify = useUtilStore((state) => state.groupNotify);
   const setGroupNotify = useUtilStore((state) => state.setGroupNotify);
 
-  // const [playNotifySound] = useSound(notifySound, {
-  //   interrupt: true,
-  // });
-
   const AudioRef = useRef(new Audio(notifySound));
   const playNotifySound = () => {
     const audioContext = new (window.AudioContext || window.AudioContext)();
     audioContext.resume().then(() => {
+      AudioRef.current.currentTime = 0;
       AudioRef.current.play();
     });
   };
@@ -66,40 +62,14 @@ function Header() {
     socket.on("chatNotify-" + user.id, (data) => {
       // Create and resume AudioContext on user interaction
       const audioContext = new (window.AudioContext || window.AudioContext)();
-      // audioContext.resume().then(() => {
-      //   playNotifySound();
-      // });
-      // if (audioContext.state === "suspended") {
-      //   audioContext.resume().then(() => {
-      //     playNotifySound();
-      //   });
-      // } else {
-      //   playNotifySound();
-      // }
 
       playNotifySound();
 
-      // console.log(data);
-      // console.log(chatNotify);
       if (data.chatType === "PRIVATE") {
         setChatNotify([data, ...chatNotify]);
       }
     });
     socket.on("chatGroupNotify-" + user.id, (data) => {
-      // Create and resume AudioContext on user interaction
-      // const audioContext = new (window.AudioContext || window.AudioContext)();
-      // // audioContext.resume().then(() => {
-      // //   playNotifySound();
-      // // });
-
-      // if (audioContext.state === "suspended") {
-      //   audioContext.resume().then(() => {
-      //     playNotifySound();
-      //   });
-      // } else {
-      //   playNotifySound();
-      // }
-
       if (data.chatType === "GROUP") {
         setGroupNotify([data, ...groupNotify]);
       }
@@ -113,7 +83,7 @@ function Header() {
 
   return (
     <>
-      <div className="flex justify-between items-center bg-base-300 h-full">
+      <div className="flex justify-between items-center bg-gray-400 h-full">
         <nav className="px-4 h-full">
           <ul className="flex items-center w-full h-full">
             <li className="w-full h-full flex items-center">
@@ -170,22 +140,6 @@ function Header() {
           </ul>
         </nav>
         <nav className="flex items-center gap-2">
-          {/* <button
-            className="btn btn-sm"
-            onClick={() => {
-              // const audioContext = new (window.AudioContext ||
-              //   window.AudioContext)();
-              // if (audioContext.state === "suspended") {
-              //   audioContext.resume().then(() => {
-              //     playNotifySound();
-              //   });
-              // } else {
-              //   playNotifySound();
-              // }
-            }}
-          >
-            Notify
-          </button> */}
           <ul>
             <li>
               <div className="dropdown dropdown-end">

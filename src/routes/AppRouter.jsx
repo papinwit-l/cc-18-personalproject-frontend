@@ -2,16 +2,12 @@ import {
   createBrowserRouter,
   Navigate,
   RouterProvider,
-  useNavigate,
 } from "react-router-dom";
-import App from "../App";
 import Login from "../pages/Login";
 import Layout from "../layouts/Layout";
 import Chat from "../pages/Chat";
 import Friends from "../pages/Friends";
 import Group from "../pages/Group";
-import PageNotFound from "../pages/PageNotFound";
-import Home from "../pages/Home";
 import useUserStore from "../stores/userStore";
 import { useContext, useEffect } from "react";
 import { SocketContext } from "../contexts/SocketContext";
@@ -35,7 +31,7 @@ const userRouter = createBrowserRouter([
       { path: "chat", element: <Chat /> },
       { path: "friends", element: <Friends /> },
       { path: "groups", element: <Group /> },
-      { path: "*", element: <PageNotFound /> },
+      { path: "*", element: <Navigate to={"chat"} /> },
     ],
   },
 ]);
@@ -46,7 +42,6 @@ function AppRouter() {
   const logout = useUserStore((state) => state.logout);
   const token = useUserStore((state) => state.token);
   const finalRouter = user ? userRouter : guestRouter;
-  const chatNotify = useUtilStore((state) => state.chatNotify);
   const setChatNotify = useUtilStore((state) => state.setChatNotify);
   const setGroupNotify = useUtilStore((state) => state.setGroupNotify);
 

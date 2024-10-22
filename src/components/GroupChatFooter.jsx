@@ -4,6 +4,7 @@ import { IconDownArrow, IconPicture, IconUpArrow } from "../icons";
 import useFriendStore from "../stores/friendStore";
 import useUserStore from "../stores/userStore";
 import useUtilStore from "../stores/utilStore";
+import { toast } from "react-toastify";
 
 function GroupChatFooter() {
   const socket = useContext(SocketContext);
@@ -22,6 +23,14 @@ function GroupChatFooter() {
 
   const handleFileChange = (e) => {
     e.preventDefault();
+    //check file size not more than 10mb
+    if (e.target.files[0].size > 10000000) {
+      // alert("File size is too large. Please select a file smaller than 10MB.");
+      toast.error(
+        "File size is too large. Please select a file smaller than 10MB."
+      );
+      return;
+    }
     const file = e.target.files[0];
     if (file) {
       setSelectedImage(file); // Set the selected image
@@ -62,6 +71,13 @@ function GroupChatFooter() {
       //   chatId: chatId,
       //   socketID: socket.id,
       // });
+
+      if (message.length > 150) {
+        // alert("Message cannot be more than 150 characters");
+        toast.error("Message cannot be more than 150 characters");
+        return;
+      }
+
       socket.emit("message", {
         message: message,
         senderId: user.id,

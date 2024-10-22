@@ -14,25 +14,22 @@ function GroupList(props) {
     document.getElementById("group-create-modal").showModal();
   };
 
-  // useEffect(() => {
-  //   socket.on("groupUpdate-", +currentUser.id, () => {
-  //     console.log("groupUpdate-", +currentUser.id);
-  //     getGroupList();
-  //   });
-  //   return () => {
-  //     socket.off("groupUpdate-", +currentUser.id);
-  //   };
-  // }, [socket]);
-
   return (
     <div className="bg-slate-400 h-full w-full flex flex-col">
-      <nav className="flex justify-between items-center p-2">
-        <button onClick={showGroupCreateModal}>Create group</button>
-        <button onClick={() => setToPending(true)}>Pending</button>
+      <nav className="flex justify-between items-center py-2 px-1">
+        <button className="btn btn-sm" onClick={showGroupCreateModal}>
+          Create group
+        </button>
+        <button className="btn btn-sm" onClick={() => setToPending(true)}>
+          Pending
+        </button>
       </nav>
-      {groupList.map((el) => (
-        <GroupListItem key={el.id} group={el} />
-      ))}
+      <p className="border-t border-b py-2 px-1">Group List:</p>
+      <div className="overflow-y-auto">
+        {groupList.map((el) => (
+          <GroupListItem key={el.id} group={el} />
+        ))}
+      </div>
     </div>
   );
 }

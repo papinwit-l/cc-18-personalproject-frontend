@@ -84,7 +84,7 @@ function ChatList() {
 
   return (
     <div className="bg-slate-400 h-full">
-      ChatList
+      <p className="p-2 border-t border-b">Chat List:</p>
       <div className="flex flex-col">
         {chatList.map((el) =>
           activeChat && activeChat.id == el.id ? (

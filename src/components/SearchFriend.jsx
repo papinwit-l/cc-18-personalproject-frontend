@@ -44,21 +44,30 @@ function SearchFriend(props) {
   };
 
   return (
-    <div>
-      <button onClick={hdlBackBtn}>Back</button>
+    <div className="h-full flex flex-col">
+      <div className="py-2 px-1">
+        <button className="btn btn-sm" onClick={hdlBackBtn}>
+          Back
+        </button>
+      </div>
       <form onSubmit={hdlFindUser}>
-        <input
-          type="text"
-          name="finduser"
-          value={searchText}
-          className="input"
-          onChange={hdlChange}
-        />
+        <div className="flex gap-2 px-1 border-t border-b py-1">
+          <input
+            type="text"
+            name="finduser"
+            value={searchText}
+            className="input input-sm flex-1"
+            onChange={hdlChange}
+          />
+          <button className="btn btn-sm">Search</button>
+        </div>
       </form>
-      <div>Find other people</div>
-      {userList.map((el) => (
-        <SearchFriendItem key={el.id} user={el} findUser={findUser} />
-      ))}
+      <div className="py-2 border-t border-b">Find other people:</div>
+      <div className="flex-1 overflow-y-auto">
+        {userList.map((el) => (
+          <SearchFriendItem key={el.id} user={el} findUser={findUser} />
+        ))}
+      </div>
     </div>
   );
 }

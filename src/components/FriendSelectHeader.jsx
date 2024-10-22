@@ -11,8 +11,10 @@ function FriendSelectHeader() {
   };
 
   return (
-    <div className="bg-slate-300 flex justify-between">
-      <button onClick={hdlBackBtn}>Back</button>
+    <div className="bg-slate-300 flex justify-between py-2 px-1">
+      <button className="btn btn-sm bg-black text-white" onClick={hdlBackBtn}>
+        Back
+      </button>
       <div>{friend.user.Profile[0].name}</div>
     </div>
   );

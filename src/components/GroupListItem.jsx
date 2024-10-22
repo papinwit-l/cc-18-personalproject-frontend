@@ -67,7 +67,7 @@ function GroupListItem(props) {
     </div>
   ) : (
     <div
-      className="flex flex-col p-2 bg-gray-300 hover:bg-gray-100"
+      className="flex flex-col p-2 hover:bg-gray-100"
       onClick={() => hdlSelectGroup()}
     >
       <div className="flex gap-2 items-center">

@@ -70,6 +70,7 @@ function GroupChatHeader() {
           onClick={() => {
             document.getElementById("group-detail-modal").showModal();
           }}
+          className="btn btn-sm"
         >
           More
         </button>

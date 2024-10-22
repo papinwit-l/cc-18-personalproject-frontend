@@ -18,7 +18,12 @@ function Friends() {
       </div>
 
       {/* Chat Content */}
-      {friend ? <FriendSelect /> : <div>Friends</div>}
+
+      {friend ? (
+        <FriendSelect />
+      ) : (
+        <div className="w-full h-full bg-[url(./src/assets/pics/bg_logo.jpg)] bg-no-repeat bg-[length:300px_300px] bg-center bg-[#cfcfcf]"></div>
+      )}
     </div>
   );
 }

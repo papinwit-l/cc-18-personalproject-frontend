@@ -22,7 +22,6 @@ function GroupBar() {
 
   const getPendingList = async () => {
     try {
-      //   console.log("getPendingList");
       const res = await axios.get(
         import.meta.env.VITE_HOST_IP + "/group/getpendinglist",
         {
@@ -31,7 +30,6 @@ function GroupBar() {
           },
         }
       );
-      //   console.log(res.data);
       setGroupPending(res.data);
     } catch (error) {
       console.log(error);
@@ -40,7 +38,6 @@ function GroupBar() {
 
   const getGroupList = async () => {
     try {
-      // console.log("getGroupList");
       const res = await axios.get(
         import.meta.env.VITE_HOST_IP + "/group/getgrouplist",
         {
@@ -49,7 +46,6 @@ function GroupBar() {
           },
         }
       );
-      //   console.log(res.data);
 
       const data = res.data.map((el) => ({
         ...el,
@@ -75,13 +71,10 @@ function GroupBar() {
       setGroupList((prev) => {
         const newList = [...prev];
         const index = newList.findIndex((el) => el.id == elevateGroupOnMsg);
-        // console.log(index);
         if (index !== -1) {
-          // console.log("index", index);
           //move to the top
           newList.unshift(newList.splice(index, 1)[0]);
         }
-        // console.log(newList);
         return newList;
       });
     }
@@ -101,14 +94,11 @@ function GroupBar() {
       getGroupList();
     });
     socket.on("chatGroupNotify-" + currentUser.id, (data) => {
-      // console.log(data);
       if (data.chatType === "GROUP") {
         setGroupList((prev) => {
           const newList = [...prev];
           const index = newList.findIndex((el) => el.id == data.chatId);
-          // console.log(index);
           if (index !== -1) {
-            // console.log("index", index);
             //move to the top
             newList.unshift(newList.splice(index, 1)[0]);
           }

@@ -82,6 +82,7 @@ function GroupDetail(props) {
     e.target.closest("#group-confirmLeave-modal").close();
     e.target.closest("#group-detail-modal").close();
     setActiveGroup(null);
+    // window.location.reload();
   };
 
   useEffect(() => {

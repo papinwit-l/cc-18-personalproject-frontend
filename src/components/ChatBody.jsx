@@ -15,7 +15,8 @@ function ChatBody() {
   const setMessageImageModal = useUtilStore(
     (state) => state.setMessageImageModal
   );
-  // console.log(activeChat);
+  const chatTopRef = useRef(null);
+  const [isOnTop, setIsOnTop] = useState(false);
 
   const [messages, setMessages] = useState([]);
 
@@ -29,7 +30,6 @@ function ChatBody() {
           },
         }
       );
-      // console.log(res.data);
       setMessages(res.data.chatMessages);
       setTimeout(() => {
         scrollBottom();
@@ -44,24 +44,54 @@ function ChatBody() {
     chatBottomRef.current?.scrollIntoView();
   };
 
+  const getMoreMessage = async () => {
+    try {
+      const res = await axios.get(
+        import.meta.env.VITE_HOST_IP +
+          "/chat/getmoremessages/" +
+          activeChat.id +
+          "/" +
+          messages[0].id,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log(res.data);
+      return res.data.chatMessages;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleScroll = async (e) => {
+    const scrollTop = e.target.scrollTop;
+    if (scrollTop === 0) {
+      setIsOnTop(true);
+      const moreMessages = await getMoreMessage();
+      if (moreMessages && moreMessages.length > 0) {
+        setMessages((prevMessages) => [...moreMessages, ...prevMessages]);
+      }
+    } else {
+      setIsOnTop(false);
+    }
+  };
+
   useEffect(() => {
     getMessage();
   }, [activeChat]);
 
   useEffect(() => {
     socket.on("message-" + activeChat.id, (data) => {
-      // console.log(data);
       if (data.message.chatId == activeChat.id) {
-        // console.log("DDDDDD");
         setMessages((prev) => {
-          // console.log(data);
-          // console.log(prev);
           return [...prev, data.message];
         });
       }
-      setTimeout(() => {
-        scrollBottom();
-      }, 0);
+      if (chatBottomRef.current) {
+        chatBottomRef.current.scrollIntoView({ behavior: "smooth" });
+      }
     });
 
     return () => {
@@ -72,15 +102,13 @@ function ChatBody() {
     };
   }, [socket, activeChat]);
 
-  // useEffect(() => {
-  //   socket.on("message", (data) => {
-  //     console.log(data);
-  //   });
-  // }, []);
-
   return (
     <>
-      <div className="flex-1 bg-white overflow-y-auto flex flex-col gap-2 p-2">
+      <div
+        className="flex-1 bg-white overflow-y-auto flex flex-col gap-2 p-2 w-full"
+        onScroll={handleScroll}
+      >
+        <div ref={chatTopRef}></div>
         {messages.map((el) => (
           <MessageItem key={el.id} messageChat={el} />
         ))}
@@ -88,7 +116,6 @@ function ChatBody() {
       </div>
       <dialog id="message-image-modal" className="modal mx-auto">
         <div className="modal-box bg-opacity-0 rounded-md">
-          {/* if there is a button in form, it will close the modal */}
           <button
             type="button"
             className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2 focus:outline-none"

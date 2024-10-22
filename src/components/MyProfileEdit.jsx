@@ -3,6 +3,7 @@ import useUserStore from "../stores/userStore";
 import Avatar from "./Avatar";
 import { IconEdit } from "../icons";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 function MyProfileEdit(props) {
   const { setEditMode } = props;
@@ -14,6 +15,8 @@ function MyProfileEdit(props) {
     currentUser.profile.profileImage
   );
   const [selectedImage, setSelectedImage] = useState(null);
+
+  const profileModal = document.getElementById("profile-modal");
 
   const clearImage = () => {
     setSelectedImage(null);
@@ -63,8 +66,8 @@ function MyProfileEdit(props) {
           },
         }
       );
-      console.log(res.data);
-      console.log(currentUser);
+      // console.log(res.data);
+      // console.log(currentUser);
       setUser(res.data);
     } catch (error) {
       console.log(error);
@@ -73,9 +76,11 @@ function MyProfileEdit(props) {
 
   const hdlSubmit = async (e) => {
     e.preventDefault();
-    console.log(displayName);
-    console.log(selectedImage);
+    // console.log(displayName);
+    // console.log(selectedImage);
     updateProfile();
+    setEditMode(false);
+    toast.success("Profile updated successfully");
   };
 
   return (
