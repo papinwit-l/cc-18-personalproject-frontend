@@ -4,6 +4,7 @@ import Avatar from "./Avatar";
 import { IconEdit } from "../icons";
 import axios from "axios";
 import useFriendStore from "../stores/friendStore";
+import { toast } from "react-toastify";
 
 function GroupDetailEdit(props) {
   const { setEditMode } = props;
@@ -17,6 +18,11 @@ function GroupDetailEdit(props) {
     activeGroup.chatImage
   );
   const [selectedImage, setSelectedImage] = useState(null);
+
+  const groupProfileModal = document.getElementById("group-detail-modal");
+  groupProfileModal.addEventListener("close", () => {
+    setEditMode(false);
+  });
 
   const clearImage = () => {
     setSelectedImage(null);
@@ -77,7 +83,9 @@ function GroupDetailEdit(props) {
 
   const hdlSubmit = async (e) => {
     e.preventDefault();
-    updateGroupDetail();
+    await updateGroupDetail();
+    toast.success("Group detail updated");
+    setEditMode(false);
     //   console.log(displayName);
     //   console.log(selectedImage);
     //   updateProfile();

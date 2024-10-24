@@ -16,7 +16,10 @@ function MyProfileEdit(props) {
   );
   const [selectedImage, setSelectedImage] = useState(null);
 
-  const profileModal = document.getElementById("profile-modal");
+  const profileModal = document.getElementById("myprofile-modal");
+  profileModal.addEventListener("close", () => {
+    setEditMode(false);
+  });
 
   const clearImage = () => {
     setSelectedImage(null);
