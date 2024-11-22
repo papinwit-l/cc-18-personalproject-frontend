@@ -12,7 +12,7 @@ function ChatList() {
   const user = useUserStore((state) => state.user);
   const [chatList, setChatList] = useState([]);
   const activeChat = useFriendStore((state) => state.activeChat);
-  const notifySound = new Audio("..//assets/notify.mp3");
+  const notifySound = new Audio("../assets/notify.mp3");
   const elevateChatOnMsg = useUtilStore((state) => state.elevateChatOnMsg);
   // console.log(activeChat);
 
