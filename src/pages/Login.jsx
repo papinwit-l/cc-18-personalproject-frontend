@@ -46,7 +46,7 @@ function Login() {
   };
   return (
     <>
-      <div className="w-screen h-screen flex justify-center items-center bg-[url(./src/assets/pics/bg_logo_repeat.jpg)] bg-[length:300px_300px] bg-[#cfcfcf]">
+      <div className="w-screen h-screen flex justify-center items-center bg-[url(./public/bg_logo_repeat.jpg)] bg-[length:300px_300px] bg-[#cfcfcf]">
         <div className="mx-auto card bg-base-200 w-96 shadow-xl">
           <form className="card-body flex flex-col gap-3" onSubmit={hdlSubmit}>
             <label className="input input-bordered flex items-center gap-2">
