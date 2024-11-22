@@ -22,7 +22,7 @@ function Friends() {
       {friend ? (
         <FriendSelect />
       ) : (
-        <div className="w-full h-full bg-[url(./bg_logo.jpg)] bg-no-repeat bg-[length:300px_300px] bg-center bg-[#cfcfcf]"></div>
+        <div className="w-full h-full bg-[url(../bg_logo.jpg)] bg-no-repeat bg-[length:300px_300px] bg-center bg-[#cfcfcf]"></div>
       )}
     </div>
   );
