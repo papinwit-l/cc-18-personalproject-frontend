@@ -15,7 +15,7 @@ function Chat() {
       </div>
 
       {/* Chat Content */}
-      <div className="flex-1 w-full h-full flex flex-col bg-[url(./public/bg_logo.jpg)] bg-no-repeat bg-[length:300px_300px] bg-center bg-[#cfcfcf]">
+      <div className="flex-1 w-full h-full flex flex-col bg-[url(./bg_logo.jpg)] bg-no-repeat bg-[length:300px_300px] bg-center bg-[#cfcfcf]">
         {activeChat && (
           <>
             <ChatHeader />
